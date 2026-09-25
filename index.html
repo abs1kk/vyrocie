@@ -224,6 +224,130 @@
             color: white;
         }
 
+        /* Gallery */
+
+        .gallery-section {
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        .gallery-section h2 {
+            font-size: 36px;
+            color: #7e3049;
+            margin-bottom: 10px;
+        }
+
+        .gallery-subtitle {
+            color: #795863;
+            font-size: 17px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .photo-card {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 25px rgba(120, 70, 90, 0.12);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(120, 70, 90, 0.2);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .photo-number {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            background: rgba(126, 48, 73, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Fullscreen photo */
+
+        .photo-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(25, 10, 18, 0.94);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 30px;
+        }
+
+        .photo-modal.active {
+            display: flex;
+        }
+
+        .photo-modal img {
+            max-width: 92%;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-photo {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 35px;
+            line-height: 1;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close-photo:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        /* Translation note */
+
+        .translation-note {
+            margin-top: 30px;
+            padding: 12px 18px;
+            text-align: center;
+            font-size: 13px;
+            color: #9a7a84;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+
         footer {
             text-align: center;
             margin-top: 45px;
@@ -259,6 +383,13 @@
 
         /* Mobile */
 
+        @media (max-width: 700px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
         @media (max-width: 600px) {
             .container {
                 width: 94%;
@@ -285,99 +416,20 @@
                 font-size: 16px;
                 line-height: 1.8;
             }
+
+            .gallery-section h2 {
+                font-size: 30px;
+            }
+
+            .photo-modal {
+                padding: 15px;
+            }
+
+            .photo-modal img {
+                max-width: 96%;
+                max-height: 85vh;
+            }
         }
-        .translation-note {
-    margin-top: 30px;
-    padding: 12px 18px;
-    text-align: center;
-    font-size: 13px;
-    color: #9a7a84;
-    opacity: 0.8;
-        }
-
-        .gallery-section {
-    margin-top: 70px;
-    text-align: center;
-}
-
-.gallery-section h2 {
-    font-size: 32px;
-    color: #8f5267;
-    margin-bottom: 8px;
-}
-
-.gallery-subtitle {
-    color: #9a7a84;
-    margin-bottom: 30px;
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.photo-card {
-    aspect-ratio: 1 / 1;
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    background: white;
-    box-shadow: 0 8px 25px rgba(120, 70, 90, 0.12);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.photo-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(120, 70, 90, 0.2);
-}
-
-.photo-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.photo-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(30, 15, 25, 0.9);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 30px;
-}
-
-.photo-modal.active {
-    display: flex;
-}
-
-.photo-modal img {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-    border-radius: 15px;
-}
-
-.close-photo {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    border: none;
-    background: none;
-    color: white;
-    font-size: 45px;
-    cursor: pointer;
-}
-
-@media (max-width: 700px) {
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-}
     </style>
 </head>
 
@@ -400,7 +452,6 @@
             ktoré robia náš príbeh naším.
         </p>
     </header>
-
 
     <!-- Categories -->
 
@@ -431,7 +482,6 @@
         </button>
 
     </div>
-
 
     <main class="reasons">
 
@@ -553,7 +603,6 @@
             </div>
         </div>
 
-
         <!-- 21–40 -->
 
         <div class="reason" data-category="moments">
@@ -661,7 +710,6 @@
             <div class="number">40</div>
             <div class="reason-text">Výlet do Rakúska na moje narodeniny.</div>
         </div>
-
 
         <!-- 41–60 -->
 
@@ -797,7 +845,6 @@
             </div>
         </div>
 
-
         <!-- 61–80 -->
 
         <div class="reason" data-category="future">
@@ -926,7 +973,6 @@
                 koľko sme toho spolu stihli zažiť.
             </div>
         </div>
-
 
         <!-- 81–99 -->
 
@@ -1076,7 +1122,6 @@
 
     </main>
 
-
     <!-- 100 -->
 
     <section class="final-section">
@@ -1124,108 +1169,139 @@
 
     </section>
 
-<section class="gallery-section">
-    <h2>Naše spoločné chvíle</h2>
-    <p class="gallery-subtitle">
-        Niekoľko spomienok, ktoré si chcem navždy uchovať.
-    </p>
+    <!-- Gallery -->
 
-    <div class="gallery">
+    <section class="gallery-section">
 
-        <div class="photo-card" onclick="openPhoto('photos/01.jpg')">
-            <img src="photos/01.jpg" alt="Naša spoločná spomienka">
+        <h2>Naše spoločné chvíle</h2>
+
+        <p class="gallery-subtitle">
+            Niekoľko spomienok, ktoré si chcem navždy uchovať.
+        </p>
+
+        <div class="gallery">
+
+            <div class="photo-card" onclick="openPhoto(1)">
+                <img id="photo1" alt="Naša spoločná spomienka 1">
+                <div class="photo-number">01</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(2)">
+                <img id="photo2" alt="Naša spoločná spomienka 2">
+                <div class="photo-number">02</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(3)">
+                <img id="photo3" alt="Naša spoločná spomienka 3">
+                <div class="photo-number">03</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(4)">
+                <img id="photo4" alt="Naša spoločná spomienka 4">
+                <div class="photo-number">04</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(5)">
+                <img id="photo5" alt="Naša spoločná spomienka 5">
+                <div class="photo-number">05</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(6)">
+                <img id="photo6" alt="Naša spoločná spomienka 6">
+                <div class="photo-number">06</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(7)">
+                <img id="photo7" alt="Naša spoločná spomienka 7">
+                <div class="photo-number">07</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(8)">
+                <img id="photo8" alt="Naša spoločná spomienka 8">
+                <div class="photo-number">08</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(9)">
+                <img id="photo9" alt="Naša spoločná spomienka 9">
+                <div class="photo-number">09</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(10)">
+                <img id="photo10" alt="Naša spoločná spomienka 10">
+                <div class="photo-number">10</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(11)">
+                <img id="photo11" alt="Naša spoločná spomienka 11">
+                <div class="photo-number">11</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(12)">
+                <img id="photo12" alt="Naša spoločná spomienka 12">
+                <div class="photo-number">12</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(13)">
+                <img id="photo13" alt="Naša spoločná spomienka 13">
+                <div class="photo-number">13</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(14)">
+                <img id="photo14" alt="Naša spoločná spomienka 14">
+                <div class="photo-number">14</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(15)">
+                <img id="photo15" alt="Naša spoločná spomienka 15">
+                <div class="photo-number">15</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(16)">
+                <img id="photo16" alt="Naša spoločná spomienka 16">
+                <div class="photo-number">16</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(17)">
+                <img id="photo17" alt="Naša spoločná spomienka 17">
+                <div class="photo-number">17</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto(18)">
+                <img id="photo18" alt="Naša spoločná spomienka 18">
+                <div class="photo-number">18</div>
+            </div>
+
         </div>
 
-        <div class="photo-card" onclick="openPhoto('photos/02.jpg')">
-            <img src="photos/02.jpg" alt="Naša spoločná spomienka">
-        </div>
+    </section>
 
-        <div class="photo-card" onclick="openPhoto('photos/03.jpg')">
-            <img src="photos/03.jpg" alt="Naša spoločná spomienka">
-        </div>
+    <!-- Photo modal -->
 
-        <div class="photo-card" onclick="openPhoto('photos/04.jpg')">
-            <img src="photos/04.jpg" alt="Naša spoločná spomienka">
-        </div>
+    <div class="photo-modal" id="photoModal">
 
-        <div class="photo-card" onclick="openPhoto('photos/05.jpg')">
-            <img src="photos/05.jpg" alt="Naša spoločná spomienka">
-        </div>
+        <button class="close-photo" onclick="closePhoto()">×</button>
 
-        <div class="photo-card" onclick="openPhoto('photos/06.jpg')">
-            <img src="photos/06.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/07.jpg')">
-            <img src="photos/07.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/08.jpg')">
-            <img src="photos/08.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/09.jpg')">
-            <img src="photos/09.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/10.jpg')">
-            <img src="photos/10.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/11.jpg')">
-            <img src="photos/11.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/12.jpg')">
-            <img src="photos/12.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/13.jpg')">
-            <img src="photos/13.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/14.jpg')">
-            <img src="photos/14.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/15.jpg')">
-            <img src="photos/15.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/16.jpg')">
-            <img src="photos/16.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/17.jpg')">
-            <img src="photos/17.jpg" alt="Naša spoločná spomienka">
-        </div>
-
-        <div class="photo-card" onclick="openPhoto('photos/18.jpg')">
-            <img src="photos/18.jpg" alt="Naša spoločná spomienka">
-        </div>
+        <img id="modalImage" alt="Zväčšená fotografia">
 
     </div>
-</section>
 
-<div class="photo-modal" id="photoModal" onclick="closePhoto(event)">
-    <button class="close-photo" onclick="closePhoto()">×</button>
-    <img id="modalImage" src="" alt="Zväčšená fotografia">
-</div>
-
-    
     <footer>
         Vyrobené pre teba ♥
     </footer>
 
-</div>
+    <div class="translation-note">
+        Prekladal som to cez uja, takže gramatiku radšej nekontroluj :)
+    </div>
 
+</div>
 
 <button id="topButton">↑</button>
 
-
 <script>
 
-    /* Category filtering */
+    /* =========================
+       CATEGORY FILTER
+    ========================= */
 
     const buttons = document.querySelectorAll(".category");
     const reasons = document.querySelectorAll(".reason");
@@ -1260,7 +1336,9 @@
     });
 
 
-    /* Floating hearts */
+    /* =========================
+       FLOATING HEARTS
+    ========================= */
 
     const heartsContainer = document.querySelector(".hearts");
 
@@ -1292,9 +1370,140 @@
     }
 
 
-    /* Back to top */
+    /* =========================
+       PHOTO SYSTEM
+    ========================= */
 
-    const topButton = document.getElementById("topButton");
+    const photoExtensions = [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp"
+    ];
+
+    const loadedPhotos = {};
+
+    function loadPhoto(number) {
+
+        const image = document.getElementById("photo" + number);
+
+        let extensionIndex = 0;
+
+        function tryNextExtension() {
+
+            if (extensionIndex >= photoExtensions.length) {
+
+                image.style.display = "none";
+
+                return;
+            }
+
+            const extension =
+                photoExtensions[extensionIndex];
+
+            const path =
+                "photos/" +
+                String(number).padStart(2, "0") +
+                extension;
+
+            const testImage = new Image();
+
+            testImage.onload = function() {
+
+                image.src = path;
+
+                loadedPhotos[number] = path;
+
+            };
+
+            testImage.onerror = function() {
+
+                extensionIndex++;
+
+                tryNextExtension();
+
+            };
+
+            testImage.src = path;
+        }
+
+        tryNextExtension();
+    }
+
+
+    for (let i = 1; i <= 18; i++) {
+        loadPhoto(i);
+    }
+
+
+    /* =========================
+       OPEN PHOTO
+    ========================= */
+
+    function openPhoto(number) {
+
+        const modal =
+            document.getElementById("photoModal");
+
+        const modalImage =
+            document.getElementById("modalImage");
+
+        const photo =
+            loadedPhotos[number];
+
+        if (!photo) {
+            return;
+        }
+
+        modalImage.src = photo;
+
+        modal.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+    }
+
+
+    /* =========================
+       CLOSE PHOTO
+    ========================= */
+
+    function closePhoto() {
+
+        const modal =
+            document.getElementById("photoModal");
+
+        modal.classList.remove("active");
+
+        document.body.style.overflow = "";
+    }
+
+
+    document
+        .getElementById("photoModal")
+        .addEventListener("click", function(event) {
+
+            if (event.target === this) {
+                closePhoto();
+            }
+
+        });
+
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+            closePhoto();
+        }
+
+    });
+
+
+    /* =========================
+       BACK TO TOP
+    ========================= */
+
+    const topButton =
+        document.getElementById("topButton");
 
     window.addEventListener("scroll", () => {
 
@@ -1306,6 +1515,7 @@
 
     });
 
+
     topButton.addEventListener("click", () => {
 
         window.scrollTo({
@@ -1315,35 +1525,7 @@
 
     });
 
-    function openPhoto(src) {
-    const modal = document.getElementById("photoModal");
-    const image = document.getElementById("modalImage");
-
-    image.src = src;
-    modal.classList.add("active");
-}
-
-function closePhoto(event) {
-    if (
-        !event ||
-        event.target.id === "photoModal" ||
-        event.target.classList.contains("close-photo")
-    ) {
-        document.getElementById("photoModal").classList.remove("active");
-    }
-}
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        document.getElementById("photoModal").classList.remove("active");
-    }
-});
-    
 </script>
-
-<div class="translation-note">
-    Prekladal som to cez uja, takže gramatiku radšej nekontroluj :)
-</div>
 
 </body>
 </html>
