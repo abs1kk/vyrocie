@@ -294,6 +294,90 @@
     color: #9a7a84;
     opacity: 0.8;
         }
+
+        .gallery-section {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.gallery-section h2 {
+    font-size: 32px;
+    color: #8f5267;
+    margin-bottom: 8px;
+}
+
+.gallery-subtitle {
+    color: #9a7a84;
+    margin-bottom: 30px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.photo-card {
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 8px 25px rgba(120, 70, 90, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.photo-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(120, 70, 90, 0.2);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 15, 25, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 30px;
+}
+
+.photo-modal.active {
+    display: flex;
+}
+
+.photo-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+.close-photo {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 45px;
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
     </style>
 </head>
 
@@ -1040,7 +1124,95 @@
 
     </section>
 
+<section class="gallery-section">
+    <h2>Naše spoločné chvíle</h2>
+    <p class="gallery-subtitle">
+        Niekoľko spomienok, ktoré si chcem navždy uchovať.
+    </p>
 
+    <div class="gallery">
+
+        <div class="photo-card" onclick="openPhoto('photos/01.jpg')">
+            <img src="photos/01.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/02.jpg')">
+            <img src="photos/02.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/03.jpg')">
+            <img src="photos/03.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/04.jpg')">
+            <img src="photos/04.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/05.jpg')">
+            <img src="photos/05.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/06.jpg')">
+            <img src="photos/06.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/07.jpg')">
+            <img src="photos/07.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/08.jpg')">
+            <img src="photos/08.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/09.jpg')">
+            <img src="photos/09.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/10.jpg')">
+            <img src="photos/10.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/11.jpg')">
+            <img src="photos/11.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/12.jpg')">
+            <img src="photos/12.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/13.jpg')">
+            <img src="photos/13.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/14.jpg')">
+            <img src="photos/14.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/15.jpg')">
+            <img src="photos/15.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/16.jpg')">
+            <img src="photos/16.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/17.jpg')">
+            <img src="photos/17.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto('photos/18.jpg')">
+            <img src="photos/18.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+    </div>
+</section>
+
+<div class="photo-modal" id="photoModal" onclick="closePhoto(event)">
+    <button class="close-photo" onclick="closePhoto()">×</button>
+    <img id="modalImage" src="" alt="Zväčšená fotografia">
+</div>
+
+    
     <footer>
         Vyrobené pre teba ♥
     </footer>
@@ -1143,6 +1315,30 @@
 
     });
 
+    function openPhoto(src) {
+    const modal = document.getElementById("photoModal");
+    const image = document.getElementById("modalImage");
+
+    image.src = src;
+    modal.classList.add("active");
+}
+
+function closePhoto(event) {
+    if (
+        !event ||
+        event.target.id === "photoModal" ||
+        event.target.classList.contains("close-photo")
+    ) {
+        document.getElementById("photoModal").classList.remove("active");
+    }
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        document.getElementById("photoModal").classList.remove("active");
+    }
+});
+    
 </script>
 
 <div class="translation-note">
