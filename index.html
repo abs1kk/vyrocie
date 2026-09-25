@@ -1,1 +1,1153 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>100 dôvodov, prečo si pre mňa výnimočná</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(255, 190, 210, 0.35), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(255, 210, 225, 0.35), transparent 30%),
+                linear-gradient(135deg, #fff5f7, #ffe8ef, #fffafb);
+            color: #402b32;
+            overflow-x: hidden;
+        }
+
+        /* Floating hearts */
+
+        .hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            color: #d87996;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.18;
+            }
+
+            90% {
+                opacity: 0.12;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main */
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: min(1050px, 92%);
+            margin: auto;
+            padding: 65px 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .eyebrow {
+            color: #b45c77;
+            font-size: 13px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 7vw, 70px);
+            line-height: 1.08;
+            color: #7e3049;
+            margin-bottom: 22px;
+        }
+
+        .subtitle {
+            max-width: 680px;
+            margin: auto;
+            color: #795863;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* Categories */
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .category {
+            border: 1px solid rgba(126, 48, 73, 0.12);
+            background: rgba(255, 255, 255, 0.72);
+            color: #7e3049;
+            padding: 11px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.25s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .category:hover {
+            transform: translateY(-2px);
+            background: #f8d8e1;
+        }
+
+        .category.active {
+            background: #7e3049;
+            color: white;
+            border-color: #7e3049;
+        }
+
+        /* Cards */
+
+        .reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .reason {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 22px;
+            padding: 24px;
+            min-height: 145px;
+            box-shadow: 0 12px 35px rgba(90, 30, 50, 0.07);
+            backdrop-filter: blur(10px);
+            transition: 0.25s ease;
+        }
+
+        .reason:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(90, 30, 50, 0.12);
+        }
+
+        .number {
+            color: #c05a79;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .reason-text {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        /* 100 */
+
+        .final-section {
+            margin-top: 65px;
+        }
+
+        .final-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #7e3049, #a94363);
+            color: white;
+            border-radius: 30px;
+            padding: clamp(30px, 6vw, 65px);
+            box-shadow: 0 25px 65px rgba(90, 30, 50, 0.2);
+        }
+
+        .final-card::before {
+            content: "♥";
+            position: absolute;
+            right: 25px;
+            top: -5px;
+            font-size: 150px;
+            opacity: 0.07;
+        }
+
+        .final-number {
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.75;
+            margin-bottom: 18px;
+        }
+
+        .final-card h2 {
+            font-size: 42px;
+            margin-bottom: 25px;
+        }
+
+        .final-text {
+            position: relative;
+            z-index: 1;
+            color: #fff5f8;
+            font-size: 18px;
+            line-height: 1.9;
+        }
+
+        .final-text strong {
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 45px;
+            color: #a37885;
+            font-size: 14px;
+        }
+
+        /* Top button */
+
+        #topButton {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: #7e3049;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 10;
+            box-shadow: 0 8px 25px rgba(90, 30, 50, 0.2);
+        }
+
+        #topButton.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                padding: 40px 0;
+            }
+
+            h1 {
+                font-size: 39px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .reason {
+                padding: 20px;
+            }
+
+            .reason-text {
+                font-size: 16px;
+            }
+
+            .final-text {
+                font-size: 16px;
+                line-height: 1.8;
+            }
+        }
+        .translation-note {
+    margin-top: 30px;
+    padding: 12px 18px;
+    text-align: center;
+    font-size: 13px;
+    color: #9a7a84;
+    opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="hearts"></div>
+
+<div class="container">
+
+    <header>
+        <div class="eyebrow">Pre teba ♥</div>
+
+        <h1>
+            100 dôvodov,<br>
+            prečo si pre mňa výnimočná
+        </h1>
+
+        <p class="subtitle">
+            100 malých dôvodov, spomienok, pocitov a vecí,
+            ktoré robia náš príbeh naším.
+        </p>
+    </header>
+
+
+    <!-- Categories -->
+
+    <div class="categories">
+
+        <button class="category active" data-filter="all">
+            Všetko
+        </button>
+
+        <button class="category" data-filter="love">
+            Čo na tebe milujem
+        </button>
+
+        <button class="category" data-filter="moments">
+            Spoločné zážitky
+        </button>
+
+        <button class="category" data-filter="value">
+            Za čo si ťa vážim
+        </button>
+
+        <button class="category" data-filter="future">
+            Čo chcem s tebou zažiť
+        </button>
+
+        <button class="category" data-filter="funny">
+            Vtipné dôvody
+        </button>
+
+    </div>
+
+
+    <main class="reasons">
+
+        <!-- 1–20 -->
+
+        <div class="reason" data-category="love">
+            <div class="number">01</div>
+            <div class="reason-text">Tvoj úsmev.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">02</div>
+            <div class="reason-text">Tvoj smiech.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">03</div>
+            <div class="reason-text">Tvoj hlas.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">04</div>
+            <div class="reason-text">Tvoje oči.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">05</div>
+            <div class="reason-text">Tvoj zmysel pre humor.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">06</div>
+            <div class="reason-text">Tvoju povahu.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">07</div>
+            <div class="reason-text">Tvoju starostlivosť.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">08</div>
+            <div class="reason-text">To, ako ma vieš rozosmiať.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">09</div>
+            <div class="reason-text">To, ako reaguješ na moje správy.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">10</div>
+            <div class="reason-text">Tvoje malé zvyky.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">11</div>
+            <div class="reason-text">
+                To, ako rozprávaš o tom, čo ťa zaujíma.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">12</div>
+            <div class="reason-text">
+                To, ako vieš byť zároveň milá aj vtipná.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">13</div>
+            <div class="reason-text">
+                To, že pri tebe môžem byť sám sebou.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">14</div>
+            <div class="reason-text">
+                To, ako mi vieš zlepšiť náladu.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">15</div>
+            <div class="reason-text">
+                To, že sa na teba jednoducho rád pozerám.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">16</div>
+            <div class="reason-text">
+                To, že ťa rád počúvam, aj keď rozprávaš o nejakej maličkosti.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">17</div>
+            <div class="reason-text">Tvoj prístup ku mne.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">18</div>
+            <div class="reason-text">
+                To, ako prejavuješ svoje emócie.
+            </div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">19</div>
+            <div class="reason-text">Tvoju jedinečnosť.</div>
+        </div>
+
+        <div class="reason" data-category="love">
+            <div class="number">20</div>
+            <div class="reason-text">
+                Mám na tebe rád všetko, čo z teba robí práve teba.
+            </div>
+        </div>
+
+
+        <!-- 21–40 -->
+
+        <div class="reason" data-category="moments">
+            <div class="number">21</div>
+            <div class="reason-text">To, ako sme sa spoznali.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">22</div>
+            <div class="reason-text">To, ako sme spolu hrali Fortnite.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">23</div>
+            <div class="reason-text">To, ako som ti kúpil Wallpaper Engine.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">24</div>
+            <div class="reason-text">Tvoj pozdrav 1. 9. 2026.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">25</div>
+            <div class="reason-text">Barborin zápas.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">26</div>
+            <div class="reason-text">Hádzanie loptičky na Dudovej.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">27</div>
+            <div class="reason-text">Naša prvá fotka pri Eurovei.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">28</div>
+            <div class="reason-text">To, ako si fetovala moju mikinu na Draždiaku.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">29</div>
+            <div class="reason-text">Naša naháňačka na Draždiaku.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">30</div>
+            <div class="reason-text">To, ako nás Darazs spravil spolusediacimi.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">31</div>
+            <div class="reason-text">To, ako sme sa dali oficiálne dokopy.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">32</div>
+            <div class="reason-text">Exkurzia do múzea so Stasikom.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">33</div>
+            <div class="reason-text">Náš „výlet“ do Brna.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">34</div>
+            <div class="reason-text">
+                To, ako sme si na Nivách kupovali darčeky na Vianoce.
+            </div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">35</div>
+            <div class="reason-text">
+                To, ako sme si vymenili darčeky na Vianoce.
+            </div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">36</div>
+            <div class="reason-text">
+                Silvester... Minimálne už naň nikdy nezabudneme.
+            </div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">37</div>
+            <div class="reason-text">To, ako sme boli v kine.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">38</div>
+            <div class="reason-text">Náš výlet na hrad.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">39</div>
+            <div class="reason-text">To, ako sme v lete chodili na Draždiak.</div>
+        </div>
+
+        <div class="reason" data-category="moments">
+            <div class="number">40</div>
+            <div class="reason-text">Výlet do Rakúska na moje narodeniny.</div>
+        </div>
+
+
+        <!-- 41–60 -->
+
+        <div class="reason" data-category="value">
+            <div class="number">41</div>
+            <div class="reason-text">Za to, že mi dôveruješ.</div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">42</div>
+            <div class="reason-text">Za tvoju starostlivosť.</div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">43</div>
+            <div class="reason-text">Za tvoju podporu.</div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">44</div>
+            <div class="reason-text">Za to, že ma počúvaš.</div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">45</div>
+            <div class="reason-text">
+                Za to, že ti naozaj záleží na tom, ako sa cítim.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">46</div>
+            <div class="reason-text">
+                Za to, že sa so mnou dokážeš rozprávať o tom, čo ťa trápi.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">47</div>
+            <div class="reason-text">
+                Za to, že ma prijímaš takého, aký som.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">48</div>
+            <div class="reason-text">
+                Za to, že toleruješ moje zvláštnosti.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">49</div>
+            <div class="reason-text">
+                Za to, že toleruješ moje hlúpe vtipy.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">50</div>
+            <div class="reason-text">
+                Za to, že zostávaš pri mne nielen v dobrých chvíľach.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">51</div>
+            <div class="reason-text">
+                Za to, že ku mne dokážeš byť úprimná.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">52</div>
+            <div class="reason-text">
+                Za to, že mi dôveruješ so svojimi myšlienkami a pocitmi.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">53</div>
+            <div class="reason-text">
+                Za to, že si na mňa nájdeš čas.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">54</div>
+            <div class="reason-text">
+                Za to, že sa snažíš kvôli nášmu vzťahu.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">55</div>
+            <div class="reason-text">
+                Za to, že dokážeš priznať svoje chyby.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">56</div>
+            <div class="reason-text">
+                Za to, že mi dávaš možnosť byť sám sebou.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">57</div>
+            <div class="reason-text">
+                Za to, že si sa stala človekom, ktorému môžem veľa povedať.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">58</div>
+            <div class="reason-text">
+                Za to, že ti nie sú ľahostajné moje pocity.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">59</div>
+            <div class="reason-text">
+                Za to, koľko krásnych spomienok vďaka tebe mám.
+            </div>
+        </div>
+
+        <div class="reason" data-category="value">
+            <div class="number">60</div>
+            <div class="reason-text">
+                Za to, akým dôležitým človekom si sa pre mňa stala.
+            </div>
+        </div>
+
+
+        <!-- 61–80 -->
+
+        <div class="reason" data-category="future">
+            <div class="number">61</div>
+            <div class="reason-text">Ešte veľa našich výročí.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">62</div>
+            <div class="reason-text">Ešte veľa spoločných prechádzok.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">63</div>
+            <div class="reason-text">Ešte veľa rozhovorov do noci.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">64</div>
+            <div class="reason-text">Ešte veľa spoločných fotiek.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">65</div>
+            <div class="reason-text">
+                Ešte veľa dní, keď sa budeme spolu smiať.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">66</div>
+            <div class="reason-text">
+                Výlet niekam, kde sme ešte nikdy neboli.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">67</div>
+            <div class="reason-text">Nové spoločné dobrodružstvá.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">68</div>
+            <div class="reason-text">
+                Nové miesta, ktoré objavíme spolu.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">69</div>
+            <div class="reason-text">Ešte veľa sviatkov spolu.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">70</div>
+            <div class="reason-text">Ešte veľa spontánnych prechádzok.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">71</div>
+            <div class="reason-text">
+                Ešte veľa chvíľ, o ktorých budeme po rokoch hovoriť:
+                „Pamätáš sa?“
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">72</div>
+            <div class="reason-text">Ešte viac našich vlastných vtipov.</div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">73</div>
+            <div class="reason-text">
+                Ešte viac spomienok, ktoré budú iba naše.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">74</div>
+            <div class="reason-text">
+                Chcem sa raz spolu s tebou pozerať na všetky naše staré fotky
+                a spomínať na to, akí sme boli.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">75</div>
+            <div class="reason-text">
+                Chcem spolu s tebou splniť aspoň niekoľko našich spoločných želaní.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">76</div>
+            <div class="reason-text">
+                Chcem ešte veľakrát vidieť tvoj úsmev vďaka niečomu, čo som urobil ja.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">77</div>
+            <div class="reason-text">
+                Chcem s tebou zažiť veľa ďalších šťastných chvíľ.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">78</div>
+            <div class="reason-text">
+                Chcem ťa spoznávať stále viac, aj po dlhom čase.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">79</div>
+            <div class="reason-text">
+                Chcem, aby náš príbeh dostával ďalšie kapitoly.
+            </div>
+        </div>
+
+        <div class="reason" data-category="future">
+            <div class="number">80</div>
+            <div class="reason-text">
+                Chcem sa raz obzrieť späť a uvedomiť si,
+                koľko sme toho spolu stihli zažiť.
+            </div>
+        </div>
+
+
+        <!-- 81–99 -->
+
+        <div class="reason" data-category="funny">
+            <div class="number">81</div>
+            <div class="reason-text">
+                Pretože s tebou môžem hodiny rozoberať úplné hlúposti.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">82</div>
+            <div class="reason-text">
+                Pretože naše správy niekedy vyzerajú,
+                akoby ich písal niekto veľmi zvláštny.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">83</div>
+            <div class="reason-text">
+                Pretože máme vtipy, ktoré sa nedajú vysvetliť normálnemu človeku.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">84</div>
+            <div class="reason-text">
+                Pretože niekedy si vtipnejšia aj vtedy,
+                keď sa vôbec nesnažíš byť vtipná.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">85</div>
+            <div class="reason-text">
+                Pretože tvoje reakcie sú niekedy vtipnejšie než samotná situácia.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">86</div>
+            <div class="reason-text">
+                Pretože ťa rád podpichujem.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">87</div>
+            <div class="reason-text">
+                Pretože mám rád, keď sa mi potom za to snažíš pomstiť.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">88</div>
+            <div class="reason-text">
+                Pretože môžeme začať vážny rozhovor
+                a o päť minút neskôr riešiť úplnú hlúposť.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">89</div>
+            <div class="reason-text">
+                Pretože máš frázy, ktoré už nikdy nebudem počuť normálne.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">90</div>
+            <div class="reason-text">
+                Pretože niektoré naše meme už dávno nie sú vtipné,
+                ale aj tak ich stále používame.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">91</div>
+            <div class="reason-text">
+                Pretože sa niekedy smejeme na takej hlúposti,
+                že sami nechápeme, prečo nám to príde vtipné.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">92</div>
+            <div class="reason-text">
+                Pretože mám rád tvoju reakciu,
+                keď poviem niečo úplne nečakané.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">93</div>
+            <div class="reason-text">
+                Pretože niekedy dokážeš jednou vetou
+                úplne zničiť celý vážny rozhovor.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">94</div>
+            <div class="reason-text">
+                Pretože naše rozhovory niekedy potrebujú vlastného prekladateľa.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">95</div>
+            <div class="reason-text">
+                Pretože máme vlastné hlášky a vtipy,
+                ktoré zvonku vôbec nedávajú zmysel.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">96</div>
+            <div class="reason-text">
+                Pretože pri tebe sa môžem správať úplne hlúpo
+                a necítim sa divne.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">97</div>
+            <div class="reason-text">
+                Pretože mám rád, akí vieme byť spolu blbí.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">98</div>
+            <div class="reason-text">
+                Pretože aj keď nerobíme nič výnimočné,
+                aj tak sa spolu dokážeme zabaviť.
+            </div>
+        </div>
+
+        <div class="reason" data-category="funny">
+            <div class="number">99</div>
+            <div class="reason-text">
+                Pretože nikdy neviem, aká ďalšia hlúposť
+                sa objaví v našom rozhovore.
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- 100 -->
+
+    <section class="final-section">
+
+        <div class="final-card">
+
+            <div class="final-number">
+                100. Najdôležitejší dôvod
+            </div>
+
+            <h2>♥</h2>
+
+            <p class="final-text">
+                Pretože za celý čas, ktorý sme spolu strávili, si sa pre mňa
+                stala oveľa viac než len mojou frajerkou. Stala si sa človekom,
+                s ktorým sa chcem deliť o svoje myšlienky, radosti, problémy,
+                hlúposti aj obyčajné chvíle svojho života.
+
+                <br><br>
+
+                Vážim si všetko, čo sme spolu prežili – dobré aj náročné chvíle,
+                pretože to všetko sa stalo súčasťou nášho príbehu. Páči sa mi,
+                akí sme spolu, páči sa mi smiať sa s tebou, chodiť s tebou
+                na prechádzky, rozprávať sa s tebou a jednoducho vedieť,
+                že ťa mám vo svojom živote.
+
+                <br><br>
+
+                A neviem, čo presne nás čaká ďalej, ale viem, že s tebou
+                chcem naďalej vytvárať nové spomienky, nové vtipy, nové fotky
+                a nové „pamätáš sa, ako vtedy…“.
+
+                <br><br>
+
+                Preto je zo všetkých 100 dôvodov ten najdôležitejší
+                veľmi jednoduchý:
+
+                <strong>milujem ťa jednoducho preto, že si to ty.</strong>
+
+                A som veľmi šťastný, že práve ty si sa stala
+                súčasťou môjho života.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+        Vyrobené pre teba ♥
+    </footer>
+
+</div>
+
+
+<button id="topButton">↑</button>
+
+
+<script>
+
+    /* Category filtering */
+
+    const buttons = document.querySelectorAll(".category");
+    const reasons = document.querySelectorAll(".reason");
+
+    buttons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const filter = button.dataset.filter;
+
+            buttons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            reasons.forEach(reason => {
+
+                if (
+                    filter === "all" ||
+                    reason.dataset.category === filter
+                ) {
+                    reason.style.display = "block";
+                } else {
+                    reason.style.display = "none";
+                }
+
+            });
+
+        });
+
+    });
+
+
+    /* Floating hearts */
+
+    const heartsContainer = document.querySelector(".hearts");
+
+    const heartSymbols = ["♥", "♡"];
+
+    for (let i = 0; i < 30; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+
+        heart.textContent =
+            heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+
+        heart.style.left =
+            Math.random() * 100 + "%";
+
+        heart.style.animationDuration =
+            8 + Math.random() * 12 + "s";
+
+        heart.style.animationDelay =
+            Math.random() * 12 + "s";
+
+        heart.style.fontSize =
+            12 + Math.random() * 20 + "px";
+
+        heartsContainer.appendChild(heart);
+
+    }
+
+
+    /* Back to top */
+
+    const topButton = document.getElementById("topButton");
+
+    window.addEventListener("scroll", () => {
+
+        if (window.scrollY > 500) {
+            topButton.classList.add("visible");
+        } else {
+            topButton.classList.remove("visible");
+        }
+
+    });
+
+    topButton.addEventListener("click", () => {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+</script>
+
+<div class="translation-note">
+    Prekladal som to cez uja, takže gramatiku radšej nekontroluj :)
+</div>
+
+</body>
+</html>
