@@ -1,776 +1,688 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>100 dôvodov, prečo si pre mňa výnimočná</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background:
-                radial-gradient(circle at 10% 20%, rgba(255, 190, 210, 0.35), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(255, 210, 225, 0.35), transparent 30%),
-                linear-gradient(135deg, #fff5f7, #ffe8ef, #fffafb);
-            color: #402b32;
-            overflow-x: hidden;
-        }
-
-        /* =========================
-           INTRO SCREEN
-        ========================= */
-
-        .intro-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 5000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 25px;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(255, 190, 210, 0.3), transparent 35%),
-                radial-gradient(circle at 80% 80%, rgba(255, 210, 225, 0.3), transparent 35%),
-                linear-gradient(135deg, #fff5f7, #ffe8ef, #fffafb);
-            transition: opacity 1s ease, visibility 1s ease;
-        }
-
-        .intro-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .intro-content {
-            max-width: 700px;
-            animation: introAppear 1.2s ease;
-        }
-
-        @keyframes introAppear {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .intro-small {
-            color: #b45c77;
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .intro-content h1 {
-            color: #7e3049;
-            font-size: clamp(42px, 8vw, 78px);
-            line-height: 1.05;
-            margin-bottom: 25px;
-        }
-
-        .intro-content p {
-            color: #795863;
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 35px;
-        }
-
-        .open-button {
-            border: none;
-            background: #7e3049;
-            color: white;
-            padding: 15px 35px;
-            border-radius: 999px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(90, 30, 50, 0.2);
-            transition: 0.3s ease;
-        }
-
-        .open-button:hover {
-            transform: translateY(-3px) scale(1.03);
-            background: #963b58;
-            box-shadow: 0 15px 35px rgba(90, 30, 50, 0.25);
-        }
-
-        /* =========================
-           FLOATING HEARTS
-        ========================= */
-
-        .hearts {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .heart {
-            position: absolute;
-            bottom: -50px;
-            color: #d87996;
-            opacity: 0;
-            animation: floatUp linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.18;
-            }
-
-            90% {
-                opacity: 0.12;
-            }
-
-            100% {
-                transform: translateY(-110vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .container {
-            position: relative;
-            z-index: 1;
-            width: min(1050px, 92%);
-            margin: auto;
-            padding: 65px 0;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .eyebrow {
-            color: #b45c77;
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        h1 {
-            font-size: clamp(38px, 7vw, 70px);
-            line-height: 1.08;
-            color: #7e3049;
-            margin-bottom: 22px;
-        }
-
-        .subtitle {
-            max-width: 680px;
-            margin: auto;
-            color: #795863;
-            font-size: 18px;
-            line-height: 1.7;
-        }
-
-        /* =========================
-           COUNTER
-        ========================= */
-
-        .counter-section {
-            margin: 0 0 60px;
-            text-align: center;
-        }
-
-        .counter-title {
-            color: #8f5267;
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .counter-subtitle {
-            color: #9a7a84;
-            margin-bottom: 25px;
-        }
-
-        .counter-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .counter-box {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-radius: 18px;
-            padding: 18px 8px;
-            box-shadow: 0 10px 30px rgba(90, 30, 50, 0.07);
-            backdrop-filter: blur(10px);
-        }
-
-        .counter-number {
-            color: #7e3049;
-            font-size: clamp(24px, 4vw, 38px);
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .counter-label {
-            color: #a37885;
-            font-size: 13px;
-            margin-top: 7px;
-        }
-
-        .total-hours {
-            background: rgba(255, 255, 255, 0.65);
-            border-radius: 18px;
-            padding: 15px;
-            color: #795863;
-            box-shadow: 0 8px 25px rgba(90, 30, 50, 0.05);
-        }
-
-        .total-hours strong {
-            color: #7e3049;
-        }
-
-        /* =========================
-           CATEGORIES
-        ========================= */
-
-        .categories {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 35px;
-        }
-
-        .category {
-            border: 1px solid rgba(126, 48, 73, 0.12);
-            background: rgba(255, 255, 255, 0.72);
-            color: #7e3049;
-            padding: 11px 18px;
-            border-radius: 999px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.25s ease;
-            backdrop-filter: blur(8px);
-        }
-
-        .category:hover {
-            transform: translateY(-2px);
-            background: #f8d8e1;
-        }
-
-        .category.active {
-            background: #7e3049;
-            color: white;
-            border-color: #7e3049;
-        }
-
-        /* =========================
-           REASONS
-        ========================= */
-
-        .reasons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 18px;
-        }
-
-        .reason {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-radius: 22px;
-            padding: 24px;
-            min-height: 145px;
-            box-shadow: 0 12px 35px rgba(90, 30, 50, 0.07);
-            backdrop-filter: blur(10px);
-            transition: 0.25s ease;
-        }
-
-        .reason:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 40px rgba(90, 30, 50, 0.12);
-        }
-
-        .number {
-            color: #c05a79;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .reason-text {
-            font-size: 17px;
-            line-height: 1.6;
-        }
-
-        /* =========================
-           MUSIC
-        ========================= */
-
-        .music-section {
-            margin-top: 65px;
-            text-align: center;
-        }
-
-        .music-card {
-            background: rgba(255, 255, 255, 0.78);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 12px 35px rgba(90, 30, 50, 0.08);
-            backdrop-filter: blur(10px);
-        }
-
-        .music-card h2 {
-            color: #8f5267;
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .music-card p {
-            color: #9a7a84;
-            margin-bottom: 22px;
-        }
-
-        .spotify-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            background: #7e3049;
-            color: white;
-            padding: 13px 24px;
-            border-radius: 999px;
-            transition: 0.3s ease;
-        }
-
-        .spotify-button:hover {
-            transform: translateY(-3px);
-            background: #963b58;
-        }
-
-        /* =========================
-           FINAL CARD
-        ========================= */
-
-        .final-section {
-            margin-top: 65px;
-        }
-
-        .final-card {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #7e3049, #a94363);
-            color: white;
-            border-radius: 30px;
-            padding: clamp(30px, 6vw, 65px);
-            box-shadow: 0 25px 65px rgba(90, 30, 50, 0.2);
-        }
-
-        .final-card::before {
-            content: "♥";
-            position: absolute;
-            right: 25px;
-            top: -5px;
-            font-size: 150px;
-            opacity: 0.07;
-        }
-
-        .final-number {
-            font-size: 13px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0.75;
-            margin-bottom: 18px;
-        }
-
-        .final-card h2 {
-            font-size: 42px;
-            margin-bottom: 25px;
-        }
-
-        .final-text {
-            position: relative;
-            z-index: 1;
-            color: #fff5f8;
-            font-size: 18px;
-            line-height: 1.9;
-        }
-
-        .final-text strong {
-            color: white;
-        }
-
-        /* =========================
-           PHOTO GALLERY
-        ========================= */
-
-        .gallery-section {
-            margin-top: 70px;
-            text-align: center;
-        }
-
-        .gallery-section h2 {
-            font-size: 32px;
-            color: #8f5267;
-            margin-bottom: 8px;
-        }
-
-        .gallery-subtitle {
-            color: #9a7a84;
-            margin-bottom: 30px;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .photo-card {
-            aspect-ratio: 1 / 1;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            background: white;
-            box-shadow: 0 8px 25px rgba(120, 70, 90, 0.12);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .photo-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(120, 70, 90, 0.2);
-        }
-
-        .photo-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* =========================
-           PHOTO MODAL
-        ========================= */
-
-        .photo-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(30, 15, 25, 0.94);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 60px;
-            opacity: 0;
-        }
-
-        .photo-modal.active {
-            display: flex;
-            animation: modalBackground 0.3s ease forwards;
-        }
-
-        @keyframes modalBackground {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .photo-modal img {
-            max-width: 90%;
-            max-height: 85%;
-            object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .photo-modal.active img {
-            animation: photoAppear 0.35s ease;
-        }
-
-        @keyframes photoAppear {
-            from {
-                opacity: 0;
-                transform: scale(0.88);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .close-photo {
-            position: absolute;
-            top: 18px;
-            right: 25px;
-            border: none;
-            background: none;
-            color: white;
-            font-size: 45px;
-            cursor: pointer;
-            z-index: 3;
-            transition: 0.2s;
-        }
-
-        .close-photo:hover {
-            transform: scale(1.15);
-        }
-
-        .photo-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 55px;
-            height: 55px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            transition: 0.25s;
-            z-index: 3;
-        }
-
-        .photo-arrow:hover {
-            background: rgba(255, 255, 255, 0.28);
-            transform: translateY(-50%) scale(1.08);
-        }
-
-        .photo-prev {
-            left: 25px;
-        }
-
-        .photo-next {
-            right: 25px;
-        }
-
-        .photo-counter {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 14px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 7px 14px;
-            border-radius: 999px;
-        }
-
-        /* =========================
-           FINAL SURPRISE
-        ========================= */
-
-        .surprise-section {
-            margin-top: 65px;
-            text-align: center;
-        }
-
-        .surprise-button {
-            border: none;
-            background: #7e3049;
-            color: white;
-            padding: 16px 30px;
-            border-radius: 999px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(90, 30, 50, 0.18);
-            transition: 0.3s ease;
-        }
-
-        .surprise-button:hover {
-            transform: translateY(-3px) scale(1.03);
-            background: #963b58;
-        }
-
-        .surprise-content {
-            display: none;
-            margin-top: 25px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 25px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(90, 30, 50, 0.1);
-            animation: surpriseAppear 0.7s ease;
-        }
-
-        .surprise-content.active {
-            display: block;
-        }
-
-        @keyframes surpriseAppear {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .surprise-content h2 {
-            color: #7e3049;
-            font-size: 34px;
-            margin-bottom: 20px;
-        }
-
-        .surprise-content p {
-            color: #795863;
-            font-size: 18px;
-            line-height: 1.9;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            text-align: center;
-            margin-top: 45px;
-            color: #a37885;
-            font-size: 14px;
-        }
-
-        .translation-note {
-            margin-top: 30px;
-            padding: 12px 18px;
-            text-align: center;
-            font-size: 13px;
-            color: #9a7a84;
-            opacity: 0.8;
-        }
-
-        /* =========================
-           TOP BUTTON
-        ========================= */
-
-        #topButton {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 48px;
-            height: 48px;
-            border: none;
-            border-radius: 50%;
-            background: #7e3049;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-            z-index: 10;
-            box-shadow: 0 8px 25px rgba(90, 30, 50, 0.2);
-        }
-
-        #topButton.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 700px) {
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .counter-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .photo-modal {
-                padding: 45px 10px;
-            }
-
-            .photo-modal img {
-                max-width: 95%;
-                max-height: 80%;
-            }
-
-            .photo-arrow {
-                width: 45px;
-                height: 45px;
-                font-size: 25px;
-            }
-
-            .photo-prev {
-                left: 10px;
-            }
-
-            .photo-next {
-                right: 10px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 94%;
-                padding: 40px 0;
-            }
-
-            h1 {
-                font-size: 39px;
-            }
-
-            .subtitle {
-                font-size: 16px;
-            }
-
-            .reason {
-                padding: 20px;
-            }
-
-            .reason-text {
-                font-size: 16px;
-            }
-
-            .final-text {
-                font-size: 16px;
-                line-height: 1.8;
-            }
-
-            .intro-content h1 {
-                font-size: 45px;
-            }
-
-            .intro-content p {
-                font-size: 16px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>100 dôvodov, prečo si pre mňa výnimočná</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, #ffdce8, transparent 35%),
+        radial-gradient(circle at bottom right, #ffe8d6, transparent 35%),
+        linear-gradient(135deg, #fff5f8, #fffaf5);
+    color: #4a3038;
+    overflow-x: hidden;
+}
+
+/* =========================
+   FLOATING HEARTS
+========================= */
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 18px;
+    opacity: 0.35;
+    pointer-events: none;
+    animation: floatHeart linear infinite;
+    z-index: 0;
+}
+
+@keyframes floatHeart {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.35;
+    }
+
+    90% {
+        opacity: 0.35;
+    }
+
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.intro-screen {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at top, #ffe0eb, transparent 50%),
+        linear-gradient(135deg, #fff3f7, #ffe8ef);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+    animation: introFadeIn 1s ease;
+}
+
+.intro-content {
+    width: min(90%, 650px);
+    animation: introContent 1.2s ease;
+}
+
+.intro-small {
+    font-size: 18px;
+    color: #b56b7e;
+    margin-bottom: 15px;
+}
+
+.intro-content h1 {
+    font-size: clamp(35px, 7vw, 65px);
+    margin: 0 0 25px;
+    color: #8e4359;
+    line-height: 1.1;
+}
+
+.intro-content p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #68454e;
+    margin-bottom: 35px;
+}
+
+.open-button {
+    border: none;
+    background: linear-gradient(135deg, #d87591, #b95070);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(185, 80, 112, 0.25);
+    transition: 0.25s;
+}
+
+.open-button:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+.intro-screen.hide {
+    animation: introHide 0.8s ease forwards;
+}
+
+@keyframes introFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes introContent {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes introHide {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    text-align: center;
+    padding: 90px 20px 50px;
+}
+
+header h1 {
+    font-size: clamp(35px, 6vw, 60px);
+    color: #8e4359;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+header p {
+    font-size: 18px;
+    color: #76535c;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.7;
+}
+
+/* =========================
+   COUNTER
+========================= */
+
+.counter-section {
+    margin: 30px auto 70px;
+    padding: 35px 25px;
+    max-width: 1000px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 30px;
+    box-shadow: 0 15px 50px rgba(150, 90, 110, 0.12);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.counter-title {
+    margin: 0;
+    font-size: 32px;
+    color: #8e4359;
+}
+
+.counter-subtitle {
+    color: #8b6a73;
+    margin: 10px 0 30px;
+}
+
+.counter-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+.counter-box {
+    background: #fff8fa;
+    border-radius: 18px;
+    padding: 18px 8px;
+    box-shadow: 0 5px 20px rgba(150, 90, 110, 0.08);
+}
+
+.counter-box div:first-child {
+    font-size: 28px;
+    font-weight: bold;
+    color: #b95070;
+}
+
+.counter-box div:last-child {
+    font-size: 13px;
+    margin-top: 5px;
+    color: #85656d;
+}
+
+.total-hours {
+    margin-top: 25px;
+    font-size: 17px;
+    color: #76535c;
+}
+
+.total-hours strong {
+    color: #b95070;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-button {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 999px;
+    background: white;
+    color: #875665;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(120,70,90,0.08);
+    transition: 0.2s;
+}
+
+.filter-button:hover,
+.filter-button.active {
+    background: #c96582;
+    color: white;
+}
+
+/* =========================
+   REASONS
+========================= */
+
+.reasons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.reason-card {
+    background: rgba(255,255,255,0.82);
+    border-radius: 22px;
+    padding: 25px 22px;
+    box-shadow: 0 8px 25px rgba(120,70,90,0.08);
+    transition: 0.25s;
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.reason-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(120,70,90,0.13);
+}
+
+.reason-number {
+    font-size: 14px;
+    font-weight: bold;
+    color: #c96582;
+    margin-bottom: 10px;
+}
+
+.reason-text {
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+/* =========================
+   MUSIC
+========================= */
+
+.music-section {
+    margin: 80px 0;
+}
+
+.music-card {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    padding: 40px 25px;
+    background: linear-gradient(135deg, #fff, #fff1f5);
+    border-radius: 30px;
+    box-shadow: 0 15px 50px rgba(120,70,90,0.12);
+}
+
+.music-card h2 {
+    margin-top: 0;
+    color: #8e4359;
+}
+
+.music-card p {
+    color: #76535c;
+    margin-bottom: 25px;
+}
+
+.spotify-button {
+    display: inline-block;
+    text-decoration: none;
+    background: #c96582;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 999px;
+    transition: 0.25s;
+}
+
+.spotify-button:hover {
+    transform: translateY(-3px);
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery-section {
+    margin: 80px 0;
+}
+
+.gallery-title {
+    text-align: center;
+    color: #8e4359;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.photo-card {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 22px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(120,70,90,0.12);
+    background: white;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.35s;
+}
+
+.photo-card:hover img {
+    transform: scale(1.06);
+}
+
+/* =========================
+   PHOTO MODAL
+========================= */
+
+.photo-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 10, 15, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 30px;
+}
+
+.photo-modal.active {
+    display: flex;
+}
+
+.photo-modal img {
+    max-width: 88%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.close-photo {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.photo-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    font-size: 42px;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.photo-arrow:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.photo-prev {
+    left: 25px;
+}
+
+.photo-next {
+    right: 25px;
+}
+
+.photo-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0,0,0,0.3);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+}
+
+@keyframes photoAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   REVEAL 100
+========================= */
+
+.reveal-section {
+    text-align: center;
+    margin: 90px 0 40px;
+}
+
+.surprise-button {
+    border: none;
+    background: linear-gradient(135deg, #d87591, #b95070);
+    color: white;
+    padding: 17px 30px;
+    border-radius: 999px;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(185,80,112,0.2);
+    transition: 0.25s;
+}
+
+.surprise-button:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* =========================
+   100TH REASON
+========================= */
+
+.final-section {
+    display: none;
+    margin: 40px auto 70px;
+    max-width: 850px;
+}
+
+.final-section.revealed {
+    display: block;
+    animation: finalAppear 0.9s ease;
+}
+
+.final-card {
+    background: linear-gradient(135deg, #fff, #fff0f5);
+    border-radius: 30px;
+    padding: 45px 35px;
+    box-shadow: 0 20px 60px rgba(130,70,90,0.15);
+    text-align: center;
+}
+
+.final-number {
+    color: #c96582;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.final-card h2 {
+    color: #8e4359;
+    margin-top: 0;
+    font-size: 32px;
+}
+
+.final-card p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #63464e;
+}
+
+@keyframes finalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================
+   FINAL SURPRISE
+========================= */
+
+.surprise-final {
+    display: none;
+    text-align: center;
+    margin: 60px auto 100px;
+    max-width: 850px;
+}
+
+.surprise-final.visible {
+    display: block;
+    animation: finalAppear 0.9s ease;
+}
+
+.surprise-content {
+    display: none;
+    background: linear-gradient(135deg, #fff0f5, #fff9f3);
+    border-radius: 30px;
+    padding: 45px 30px;
+    box-shadow: 0 20px 60px rgba(130,70,90,0.15);
+}
+
+.surprise-content.active {
+    display: block;
+    animation: finalAppear 0.9s ease;
+}
+
+.surprise-content h2 {
+    color: #8e4359;
+    font-size: 32px;
+}
+
+.surprise-content p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #63464e;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 30px 20px 60px;
+    color: #96747d;
+    font-size: 14px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .counter-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .reasons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    header {
+        padding-top: 60px;
+    }
+
+    .reasons {
+        grid-template-columns: 1fr;
+    }
+
+    .counter-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .photo-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 34px;
+    }
+
+    .photo-prev {
+        left: 10px;
+    }
+
+    .photo-next {
+        right: 10px;
+    }
+
+    .final-card {
+        padding: 35px 22px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
@@ -780,10 +692,17 @@
 ========================= -->
 
 <div class="intro-screen" id="introScreen">
-    <div class="intro-content">
-        <div class="intro-small">Pre teba ♥</div>
 
-        <h1>Mám pre teba<br>niečo malé...</h1>
+    <div class="intro-content">
+
+        <div class="intro-small">
+            Pre teba ♥
+        </div>
+
+        <h1>
+            Mám pre teba<br>
+            niečo malé...
+        </h1>
 
         <p>
             Niečo, do čoho som dal všetky naše spomienky,
@@ -793,7 +712,9 @@
         <button class="open-button" onclick="openWebsite()">
             Otvoriť ♥
         </button>
+
     </div>
+
 </div>
 
 
@@ -801,1397 +722,1437 @@
      FLOATING HEARTS
 ========================= -->
 
-<div class="hearts"></div>
+<div class="heart" style="left:5%; animation-duration:12s;">♥</div>
+<div class="heart" style="left:15%; animation-duration:16s; animation-delay:2s;">♥</div>
+<div class="heart" style="left:28%; animation-duration:13s; animation-delay:4s;">♥</div>
+<div class="heart" style="left:42%; animation-duration:17s; animation-delay:1s;">♥</div>
+<div class="heart" style="left:57%; animation-duration:14s; animation-delay:5s;">♥</div>
+<div class="heart" style="left:70%; animation-duration:18s; animation-delay:3s;">♥</div>
+<div class="heart" style="left:84%; animation-duration:13s; animation-delay:6s;">♥</div>
+<div class="heart" style="left:94%; animation-duration:16s; animation-delay:2s;">♥</div>
 
 
-<!-- =========================
-     MAIN CONTAINER
-========================= -->
+<main>
 
 <div class="container">
 
-    <header>
-        <div class="eyebrow">Pre teba ♥</div>
+<!-- =========================
+     HEADER
+========================= -->
 
-        <h1>
-            100 dôvodov,<br>
-            prečo si pre mňa výnimočná
-        </h1>
+<header>
 
-        <p class="subtitle">
-            100 malých dôvodov, spomienok, pocitov a vecí,
-            ktoré robia náš príbeh naším.
-        </p>
-    </header>
+    <h1>
+        100 dôvodov,<br>
+        prečo si pre mňa výnimočná
+    </h1>
 
+    <p>
+        100 malých aj veľkých dôvodov,
+        prečo som rád, že práve ty si súčasťou môjho života.
+    </p>
 
-    <!-- =========================
-         COUNTER
-    ========================= -->
+</header>
 
-    <section class="counter-section">
 
-        <h2 class="counter-title">
-            Sme spolu už...
-        </h2>
+<!-- =========================
+     COUNTER
+========================= -->
 
-        <p class="counter-subtitle">
-            Od 27. septembra 2025, 20:45(cca)
-        </p>
+<section class="counter-section">
 
-        <div class="counter-grid">
+    <h2 class="counter-title">
+        Sme spolu už...
+    </h2>
 
-            <div class="counter-box">
-                <div class="counter-number" id="years">0</div>
-                <div class="counter-label">rokov</div>
-            </div>
+    <p class="counter-subtitle">
+        Od 27. septembra 2025, 20:45
+    </p>
 
-            <div class="counter-box">
-                <div class="counter-number" id="months">0</div>
-                <div class="counter-label">mesiacov</div>
-            </div>
+    <div class="counter-grid">
 
-            <div class="counter-box">
-                <div class="counter-number" id="days">0</div>
-                <div class="counter-label">dní</div>
-            </div>
-
-            <div class="counter-box">
-                <div class="counter-number" id="hours">0</div>
-                <div class="counter-label">hodín</div>
-            </div>
-
-            <div class="counter-box">
-                <div class="counter-number" id="minutes">0</div>
-                <div class="counter-label">minút</div>
-            </div>
-
-            <div class="counter-box">
-                <div class="counter-number" id="seconds">0</div>
-                <div class="counter-label">sekúnd</div>
-            </div>
-
-        </div>
-
-        <div class="total-hours">
-            Spolu je to už
-            <strong id="totalHours">0.00</strong>
-            hodín.
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         CATEGORIES
-    ========================= -->
-
-    <div class="categories">
-
-        <button class="category active" data-filter="all">
-            Všetko
-        </button>
-
-        <button class="category" data-filter="love">
-            Čo na tebe milujem
-        </button>
-
-        <button class="category" data-filter="moments">
-            Spoločné zážitky
-        </button>
-
-        <button class="category" data-filter="value">
-            Za čo si ťa vážim
-        </button>
-
-        <button class="category" data-filter="future">
-            Čo chcem s tebou zažiť
-        </button>
-
-        <button class="category" data-filter="funny">
-            Vtipné dôvody
-        </button>
-
-    </div>
-
-
-    <!-- =========================
-         REASONS
-    ========================= -->
-
-    <main class="reasons">
-
-        <!-- 1–20 -->
-
-        <div class="reason" data-category="love">
-            <div class="number">01</div>
-            <div class="reason-text">Tvoj úsmev.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">02</div>
-            <div class="reason-text">Tvoj smiech.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">03</div>
-            <div class="reason-text">Tvoj hlas.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">04</div>
-            <div class="reason-text">Tvoje oči.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">05</div>
-            <div class="reason-text">Tvoj zmysel pre humor.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">06</div>
-            <div class="reason-text">Tvoju povahu.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">07</div>
-            <div class="reason-text">Tvoju starostlivosť.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">08</div>
-            <div class="reason-text">To, ako ma vieš rozosmiať.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">09</div>
-            <div class="reason-text">To, ako reaguješ na moje správy.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">10</div>
-            <div class="reason-text">Tvoje malé zvyky.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">11</div>
-            <div class="reason-text">To, ako rozprávaš o tom, čo ťa zaujíma.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">12</div>
-            <div class="reason-text">To, ako vieš byť zároveň milá aj vtipná.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">13</div>
-            <div class="reason-text">To, že pri tebe môžem byť sám sebou.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">14</div>
-            <div class="reason-text">To, ako mi vieš zlepšiť náladu.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">15</div>
-            <div class="reason-text">To, že sa na teba jednoducho rád pozerám.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">16</div>
-            <div class="reason-text">To, že ťa rád počúvam, aj keď rozprávaš o nejakej maličkosti.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">17</div>
-            <div class="reason-text">Tvoj prístup ku mne.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">18</div>
-            <div class="reason-text">To, ako prejavuješ svoje emócie.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">19</div>
-            <div class="reason-text">Tvoju jedinečnosť.</div>
-        </div>
-
-        <div class="reason" data-category="love">
-            <div class="number">20</div>
-            <div class="reason-text">Mám na tebe rád všetko, čo z teba robí práve teba.</div>
-        </div>
-
-
-        <!-- 21–40 -->
-
-        <div class="reason" data-category="moments">
-            <div class="number">21</div>
-            <div class="reason-text">To, ako sme sa spoznali.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">22</div>
-            <div class="reason-text">To, ako sme spolu hrali Fortnite.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">23</div>
-            <div class="reason-text">To, ako som ti kúpil Wallpaper Engine.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">24</div>
-            <div class="reason-text">Tvoj pozdrav 1. 9. 2025.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">25</div>
-            <div class="reason-text">Barborin zápas.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">26</div>
-            <div class="reason-text">Hádzanie loptičky na Dudovej.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">27</div>
-            <div class="reason-text">Naša prvá fotka pri Eurovei.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">28</div>
-            <div class="reason-text">To, ako si fetovala moju mikinu na Draždiaku.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">29</div>
-            <div class="reason-text">Naša naháňačka na Draždiaku.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">30</div>
-            <div class="reason-text">To, ako nás Darazs spravil spolusediacimi.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">31</div>
-            <div class="reason-text">To, ako sme sa dali oficiálne dokopy.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">32</div>
-            <div class="reason-text">Exkurzia do múzea so Stasikom.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">33</div>
-            <div class="reason-text">Náš „výlet“ do Brna.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">34</div>
-            <div class="reason-text">To, ako sme si na Nivách kupovali darčeky na Vianoce.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">35</div>
-            <div class="reason-text">To, ako sme si vymenili darčeky na Vianoce.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">36</div>
-            <div class="reason-text">Silvester... Minimálne už naň nikdy nezabudneme.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">37</div>
-            <div class="reason-text">To, ako sme boli v kine.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">38</div>
-            <div class="reason-text">Náš výlet na hrad.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">39</div>
-            <div class="reason-text">To, ako sme v lete chodili na Draždiak.</div>
-        </div>
-
-        <div class="reason" data-category="moments">
-            <div class="number">40</div>
-            <div class="reason-text">Výlet do Rakúska na moje narodeniny.</div>
-        </div>
-
-
-        <!-- 41–60 -->
-
-        <div class="reason" data-category="value">
-            <div class="number">41</div>
-            <div class="reason-text">Za to, že mi dôveruješ.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">42</div>
-            <div class="reason-text">Za tvoju starostlivosť.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">43</div>
-            <div class="reason-text">Za tvoju podporu.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">44</div>
-            <div class="reason-text">Za to, že ma počúvaš.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">45</div>
-            <div class="reason-text">Za to, že ti naozaj záleží na tom, ako sa cítim.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">46</div>
-            <div class="reason-text">Za to, že sa so mnou dokážeš rozprávať o tom, čo ťa trápi.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">47</div>
-            <div class="reason-text">Za to, že ma prijímaš takého, aký som.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">48</div>
-            <div class="reason-text">Za to, že toleruješ moje zvláštnosti.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">49</div>
-            <div class="reason-text">Za to, že toleruješ moje hlúpe vtipy.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">50</div>
-            <div class="reason-text">Za to, že zostávaš pri mne nielen v dobrých chvíľach.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">51</div>
-            <div class="reason-text">Za to, že ku mne dokážeš byť úprimná.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">52</div>
-            <div class="reason-text">Za to, že mi dôveruješ so svojimi myšlienkami a pocitmi.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">53</div>
-            <div class="reason-text">Za to, že si na mňa nájdeš čas.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">54</div>
-            <div class="reason-text">Za to, že sa snažíš kvôli nášmu vzťahu.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">55</div>
-            <div class="reason-text">Za to, že dokážeš priznať svoje chyby.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">56</div>
-            <div class="reason-text">Za to, že mi dávaš možnosť byť sám sebou.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">57</div>
-            <div class="reason-text">Za to, že si sa stala človekom, ktorému môžem veľa povedať.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">58</div>
-            <div class="reason-text">Za to, že ti nie sú ľahostajné moje pocity.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">59</div>
-            <div class="reason-text">Za to, koľko krásnych spomienok vďaka tebe mám.</div>
-        </div>
-
-        <div class="reason" data-category="value">
-            <div class="number">60</div>
-            <div class="reason-text">Za to, akým dôležitým človekom si sa pre mňa stala.</div>
-        </div>
-
-
-        <!-- 61–80 -->
-
-        <div class="reason" data-category="future">
-            <div class="number">61</div>
-            <div class="reason-text">Ešte veľa našich výročí.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">62</div>
-            <div class="reason-text">Ešte veľa spoločných prechádzok.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">63</div>
-            <div class="reason-text">Ešte veľa rozhovorov do noci.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">64</div>
-            <div class="reason-text">Ešte veľa spoločných fotiek.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">65</div>
-            <div class="reason-text">Ešte veľa dní, keď sa budeme spolu smiať.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">66</div>
-            <div class="reason-text">Výlet niekam, kde sme ešte nikdy neboli.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">67</div>
-            <div class="reason-text">Nové spoločné dobrodružstvá.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">68</div>
-            <div class="reason-text">Nové miesta, ktoré objavíme spolu.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">69</div>
-            <div class="reason-text">Ešte veľa sviatkov spolu.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">70</div>
-            <div class="reason-text">Ešte veľa spontánnych prechádzok.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">71</div>
-            <div class="reason-text">Ešte veľa chvíľ, o ktorých budeme po rokoch hovoriť: „Pamätáš sa?“</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">72</div>
-            <div class="reason-text">Ešte viac našich vlastných vtipov.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">73</div>
-            <div class="reason-text">Ešte viac spomienok, ktoré budú iba naše.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">74</div>
-            <div class="reason-text">Chcem sa raz spolu s tebou pozerať na všetky naše staré fotky a spomínať na to, akí sme boli.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">75</div>
-            <div class="reason-text">Chcem spolu s tebou splniť aspoň niekoľko našich spoločných želaní.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">76</div>
-            <div class="reason-text">Chcem ešte veľakrát vidieť tvoj úsmev vďaka niečomu, čo som urobil ja.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">77</div>
-            <div class="reason-text">Chcem s tebou zažiť veľa ďalších šťastných chvíľ.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">78</div>
-            <div class="reason-text">Chcem ťa spoznávať stále viac, aj po dlhom čase.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">79</div>
-            <div class="reason-text">Chcem, aby náš príbeh dostával ďalšie kapitoly.</div>
-        </div>
-
-        <div class="reason" data-category="future">
-            <div class="number">80</div>
-            <div class="reason-text">Chcem sa raz obzrieť späť a uvedomiť si, koľko sme toho spolu stihli zažiť.</div>
-        </div>
-
-
-        <!-- 81–99 -->
-
-        <div class="reason" data-category="funny">
-            <div class="number">81</div>
-            <div class="reason-text">Pretože s tebou môžem hodiny rozoberať úplné hlúposti.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">82</div>
-            <div class="reason-text">Pretože naše správy niekedy vyzerajú, akoby ich písal niekto veľmi zvláštny.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">83</div>
-            <div class="reason-text">Pretože máme vtipy, ktoré sa nedajú vysvetliť normálnemu človeku.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">84</div>
-            <div class="reason-text">Pretože niekedy si vtipnejšia aj vtedy, keď sa vôbec nesnažíš byť vtipná.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">85</div>
-            <div class="reason-text">Pretože tvoje reakcie sú niekedy vtipnejšie než samotná situácia.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">86</div>
-            <div class="reason-text">Pretože ťa rád podpichujem.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">87</div>
-            <div class="reason-text">Pretože mám rád, keď sa mi potom za to snažíš pomstiť.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">88</div>
-            <div class="reason-text">Pretože môžeme začať vážny rozhovor a o päť minút neskôr riešiť úplnú hlúposť.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">89</div>
-            <div class="reason-text">Pretože máš frázy, ktoré už nikdy nebudem počuť normálne.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">90</div>
-            <div class="reason-text">Pretože niektoré naše meme už dávno nie sú vtipné, ale aj tak ich stále používame.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">91</div>
-            <div class="reason-text">Pretože sa niekedy smejeme na takej hlúposti, že sami nechápeme, prečo nám to príde vtipné.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">92</div>
-            <div class="reason-text">Pretože mám rád tvoju reakciu, keď poviem niečo úplne nečakané.</div>
+        <div class="counter-box">
+            <div id="years">0</div>
+            <div>rokov</div>
         </div>
 
-        <div class="reason" data-category="funny">
-            <div class="number">93</div>
-            <div class="reason-text">Pretože niekedy dokážeš jednou vetou úplne zničiť celý vážny rozhovor.</div>
+        <div class="counter-box">
+            <div id="months">0</div>
+            <div>mesiacov</div>
         </div>
 
-        <div class="reason" data-category="funny">
-            <div class="number">94</div>
-            <div class="reason-text">Pretože naše rozhovory niekedy potrebujú vlastného prekladateľa.</div>
+        <div class="counter-box">
+            <div id="days">0</div>
+            <div>dní</div>
         </div>
 
-        <div class="reason" data-category="funny">
-            <div class="number">95</div>
-            <div class="reason-text">Pretože máme vlastné hlášky a vtipy, ktoré zvonku vôbec nedávajú zmysel.</div>
+        <div class="counter-box">
+            <div id="hours">0</div>
+            <div>hodín</div>
         </div>
 
-        <div class="reason" data-category="funny">
-            <div class="number">96</div>
-            <div class="reason-text">Pretože pri tebe sa môžem správať úplne hlúpo a necítim sa divne.</div>
+        <div class="counter-box">
+            <div id="minutes">0</div>
+            <div>minút</div>
         </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">97</div>
-            <div class="reason-text">Pretože mám rád, akí vieme byť spolu blbí.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">98</div>
-            <div class="reason-text">Pretože aj keď nerobíme nič výnimočné, aj tak sa spolu dokážeme zabaviť.</div>
-        </div>
-
-        <div class="reason" data-category="funny">
-            <div class="number">99</div>
-            <div class="reason-text">Pretože nikdy neviem, aká ďalšia hlúposť sa objaví v našom rozhovore.</div>
-        </div>
-
-    </main>
-
-
-    <!-- =========================
-         100
-    ========================= -->
-
-    <section class="final-section">
-
-        <div class="final-card">
-
-            <div class="final-number">
-                100. Najdôležitejší dôvod
-            </div>
-
-            <h2>♥</h2>
-
-            <p class="final-text">
-
-                Pretože za celý čas, ktorý sme spolu strávili, si sa pre mňa
-                stala oveľa viac než len mojou frajerkou. Stala si sa človekom,
-                s ktorým sa chcem deliť o svoje myšlienky, radosti, problémy,
-                hlúposti aj obyčajné chvíle svojho života.
-
-                <br><br>
-
-                Vážim si všetko, čo sme spolu prežili – dobré aj náročné chvíle,
-                pretože to všetko sa stalo súčasťou nášho príbehu. Páči sa mi,
-                akí sme spolu, páči sa mi smiať sa s tebou, chodiť s tebou
-                na prechádzky, rozprávať sa s tebou a jednoducho vedieť,
-                že ťa mám vo svojom živote.
-
-                <br><br>
-
-                A neviem, čo presne nás čaká ďalej, ale viem, že s tebou
-                chcem naďalej vytvárať nové spomienky, nové vtipy, nové fotky
-                a nové „pamätáš sa, ako vtedy…“.
-
-                <br><br>
-
-                Preto je zo všetkých 100 dôvodov ten najdôležitejší
-                veľmi jednoduchý:
-
-                <strong>
-                    milujem ťa jednoducho preto, že si to ty.
-                </strong>
-
-                A som veľmi šťastný, že práve ty si sa stala
-                súčasťou môjho života.
-
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         MUSIC
-    ========================= -->
-
-    <section class="music-section">
-
-        <div class="music-card">
-
-            <h2>Pesnička pre nás</h2>
-
-            <p>
-                Jedna z pesničiek, ktorá mi pripomína teba.
-            </p>
-
-            <a
-                class="spotify-button"
-                href="https://open.spotify.com/track/1nKK4B9X8CbP5MwTfrSRBh?si=6575df10f2e64252"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                ▶ Lil Peep — White Tee
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         GALLERY
-    ========================= -->
-
-    <section class="gallery-section">
-
-        <h2>Naše spoločné chvíle</h2>
-
-        <p class="gallery-subtitle">
-            Niekoľko spomienok, ktoré si chcem navždy uchovať.
-        </p>
-
-        <div class="gallery">
-
-            <div class="photo-card" onclick="openPhoto(0)">
-                <img src="photos/01.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(1)">
-                <img src="photos/02.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(2)">
-                <img src="photos/03.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(3)">
-                <img src="photos/04.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(4)">
-                <img src="photos/05.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(5)">
-                <img src="photos/06.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(6)">
-                <img src="photos/07.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(7)">
-                <img src="photos/08.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(8)">
-                <img src="photos/09.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(9)">
-                <img src="photos/10.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(10)">
-                <img src="photos/11.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(11)">
-                <img src="photos/12.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(12)">
-                <img src="photos/13.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(13)">
-                <img src="photos/14.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(14)">
-                <img src="photos/15.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(15)">
-                <img src="photos/16.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(16)">
-                <img src="photos/17.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-            <div class="photo-card" onclick="openPhoto(17)">
-                <img src="photos/18.jpg" alt="Naša spoločná spomienka">
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PHOTO MODAL
-    ========================= -->
-
-    <div
-        class="photo-modal"
-        id="photoModal"
-        onclick="closePhoto(event)"
-    >
-
-        <button
-            class="close-photo"
-            onclick="closePhoto()"
-        >
-            ×
-        </button>
-
-        <button
-            class="photo-arrow photo-prev"
-            onclick="previousPhoto(event)"
-        >
-            ‹
-        </button>
-
-        <img
-            id="modalImage"
-            src=""
-            alt="Zväčšená fotografia"
-        >
-
-        <button
-            class="photo-arrow photo-next"
-            onclick="nextPhoto(event)"
-        >
-            ›
-        </button>
 
-        <div class="photo-counter" id="photoCounter">
-            1 / 18
+        <div class="counter-box">
+            <div id="seconds">0</div>
+            <div>sekúnd</div>
         </div>
 
     </div>
 
+    <div class="total-hours">
+        Spolu je to už
+        <strong id="totalHours">0.00</strong>
+        hodín.
+    </div>
 
-    <!-- =========================
-         FINAL SURPRISE
-    ========================= -->
-
-    <section class="surprise-section">
-
-        <button
-            class="surprise-button"
-            onclick="openSurprise()"
-            id="surpriseButton"
-        >
-            Ešte niečo...
-        </button>
-
-        <div
-            class="surprise-content"
-            id="surpriseContent"
-        >
-
-            <h2>♥ Ešte jedna vec...</h2>
-
-            <p>
-                Ak si sa dostala až sem, tak už vieš všetkých 100 dôvodov.
-
-                <br><br>
-
-                Ale pravdou je, že ich existuje oveľa viac a pravdepodobne
-                by som ich nedokázal všetky napísať ani za celý deň.
-
-                <br><br>
-
-                Ďakujem ti za všetky naše spoločné chvíle, za všetky
-                spomienky, smiech, rozhovory, výlety, hlúposti aj obyčajné
-                dni, ktoré sú vďaka tebe o niečo krajšie.
-
-                <br><br>
-
-                Toto je len malá časť nášho príbehu.
-
-                <br><br>
-
-                A dúfam, že tých ďalších kapitol bude ešte veľmi veľa.
-
-                <br><br>
-
-                <strong>
-                    Ľúbim ťa. ♥
-                </strong>
-            </p>
-
-        </div>
-
-    </section>
+</section>
 
 
-    <footer>
-        Vyrobené pre teba ♥
-    </footer>
+<!-- =========================
+     FILTERS
+========================= -->
+
+<div class="filters">
+
+    <button class="filter-button active" onclick="filterReasons('all', this)">
+        Všetko
+    </button>
+
+    <button class="filter-button" onclick="filterReasons('love', this)">
+        Čo na tebe milujem
+    </button>
+
+    <button class="filter-button" onclick="filterReasons('moments', this)">
+        Spomienky
+    </button>
+
+    <button class="filter-button" onclick="filterReasons('value', this)">
+        Čo si vážim
+    </button>
+
+    <button class="filter-button" onclick="filterReasons('future', this)">
+        Naša budúcnosť
+    </button>
+
+    <button class="filter-button" onclick="filterReasons('funny', this)">
+        Hlúposti
+    </button>
 
 </div>
 
 
-<button id="topButton">
-    ↑
-</button>
+<!-- =========================
+     REASONS
+========================= -->
+
+<div class="reasons" id="reasonsContainer">
+
+<!-- 1-20 -->
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#1</div>
+<div class="reason-text">Tvoj úsmev.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#2</div>
+<div class="reason-text">Tvoj smiech.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#3</div>
+<div class="reason-text">Tvoj hlas.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#4</div>
+<div class="reason-text">Tvoje oči.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#5</div>
+<div class="reason-text">Tvoj zmysel pre humor.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#6</div>
+<div class="reason-text">Tvoju povahu.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#7</div>
+<div class="reason-text">Tvoju starostlivosť.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#8</div>
+<div class="reason-text">To, ako ma vieš rozosmiať.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#9</div>
+<div class="reason-text">To, ako reaguješ na moje správy.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#10</div>
+<div class="reason-text">Tvoje malé zvyky.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#11</div>
+<div class="reason-text">To, ako rozprávaš o tom, čo ťa zaujíma.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#12</div>
+<div class="reason-text">To, ako vieš byť zároveň milá aj vtipná.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#13</div>
+<div class="reason-text">To, že pri tebe môžem byť sám sebou.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#14</div>
+<div class="reason-text">To, ako mi vieš zlepšiť náladu.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#15</div>
+<div class="reason-text">To, že sa na teba jednoducho rád pozerám.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#16</div>
+<div class="reason-text">To, že ťa rád počúvam, aj keď rozprávaš o nejakej maličkosti.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#17</div>
+<div class="reason-text">Tvoj prístup ku mne.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#18</div>
+<div class="reason-text">To, ako prejavuješ svoje emócie.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#19</div>
+<div class="reason-text">Tvoju jedinečnosť.</div>
+</div>
+
+<div class="reason-card" data-category="love">
+<div class="reason-number">#20</div>
+<div class="reason-text">Mám na tebe rád všetko, čo z teba robí práve teba.</div>
+</div>
 
 
-<div class="translation-note">
+<!-- 21-40 -->
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#21</div>
+<div class="reason-text">To, ako sme sa spoznali.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#22</div>
+<div class="reason-text">To, ako sme spolu hrali Fortnite.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#23</div>
+<div class="reason-text">To, ako som ti kúpil Wallpaper Engine.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#24</div>
+<div class="reason-text">Tvoj pozdrav 1. 9. 2025.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#25</div>
+<div class="reason-text">Barborin zápas.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#26</div>
+<div class="reason-text">Hádzanie loptičky na Dudovej.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#27</div>
+<div class="reason-text">Naša prvá fotka pri Eurovei.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#28</div>
+<div class="reason-text">To, ako si fetovala moju mikinu na Draždiaku.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#29</div>
+<div class="reason-text">Naša naháňačka na Draždiaku.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#30</div>
+<div class="reason-text">To, ako nás Darazs spravil spolusediacimi.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#31</div>
+<div class="reason-text">To, ako sme sa dali oficiálne dokopy.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#32</div>
+<div class="reason-text">Exkurzia do múzea so Stasikom.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#33</div>
+<div class="reason-text">Náš „výlet“ do Brna.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#34</div>
+<div class="reason-text">To, ako sme si na Nivách kupovali darčeky na Vianoce.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#35</div>
+<div class="reason-text">To, ako sme si vymenili darčeky na Vianoce.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#36</div>
+<div class="reason-text">Silvester... Minimálne už naň nikdy nezabudneme.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#37</div>
+<div class="reason-text">To, ako sme boli v kine.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#38</div>
+<div class="reason-text">Náš výlet na hrad.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#39</div>
+<div class="reason-text">To, ako sme v lete chodili na Draždiak.</div>
+</div>
+
+<div class="reason-card" data-category="moments">
+<div class="reason-number">#40</div>
+<div class="reason-text">Výlet do Rakúska na moje narodeniny.</div>
+</div>
+
+
+<!-- 41-60 -->
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#41</div>
+<div class="reason-text">Za to, že mi dôveruješ.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#42</div>
+<div class="reason-text">Za tvoju starostlivosť.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#43</div>
+<div class="reason-text">Za tvoju podporu.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#44</div>
+<div class="reason-text">Za to, že ma počúvaš.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#45</div>
+<div class="reason-text">Za to, že ti naozaj záleží na tom, ako sa cítim.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#46</div>
+<div class="reason-text">Za to, že sa so mnou dokážeš rozprávať o tom, čo ťa trápi.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#47</div>
+<div class="reason-text">Za to, že ma prijímaš takého, aký som.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#48</div>
+<div class="reason-text">Za to, že toleruješ moje zvláštnosti.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#49</div>
+<div class="reason-text">Za to, že toleruješ moje hlúpe vtipy.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#50</div>
+<div class="reason-text">Za to, že zostávaš pri mne nielen v dobrých chvíľach.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#51</div>
+<div class="reason-text">Za to, že ku mne dokážeš byť úprimná.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#52</div>
+<div class="reason-text">Za to, že mi dôveruješ so svojimi myšlienkami a pocitmi.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#53</div>
+<div class="reason-text">Za to, že si na mňa nájdeš čas.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#54</div>
+<div class="reason-text">Za to, že sa snažíš kvôli nášmu vzťahu.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#55</div>
+<div class="reason-text">Za to, že dokážeš priznať svoje chyby.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#56</div>
+<div class="reason-text">Za to, že mi dávaš možnosť byť sám sebou.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#57</div>
+<div class="reason-text">Za to, že si sa stala človekom, ktorému môžem veľa povedať.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#58</div>
+<div class="reason-text">Za to, že ti nie sú ľahostajné moje pocity.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#59</div>
+<div class="reason-text">Za to, koľko krásnych spomienok vďaka tebe mám.</div>
+</div>
+
+<div class="reason-card" data-category="value">
+<div class="reason-number">#60</div>
+<div class="reason-text">Za to, akým dôležitým človekom si sa pre mňa stala.</div>
+</div>
+
+
+<!-- 61-80 -->
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#61</div>
+<div class="reason-text">Ešte veľa našich výročí.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#62</div>
+<div class="reason-text">Ešte veľa spoločných prechádzok.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#63</div>
+<div class="reason-text">Ešte veľa rozhovorov do noci.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#64</div>
+<div class="reason-text">Ešte veľa spoločných fotiek.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#65</div>
+<div class="reason-text">Ešte veľa dní, keď sa budeme spolu smiať.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#66</div>
+<div class="reason-text">Výlet niekam, kde sme ešte nikdy neboli.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#67</div>
+<div class="reason-text">Nové spoločné dobrodružstvá.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#68</div>
+<div class="reason-text">Nové miesta, ktoré objavíme spolu.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#69</div>
+<div class="reason-text">Ešte veľa sviatkov spolu.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#70</div>
+<div class="reason-text">Ešte veľa spontánnych prechádzok.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#71</div>
+<div class="reason-text">Ešte veľa chvíľ, o ktorých budeme po rokoch hovoriť: „Pamätáš sa?“</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#72</div>
+<div class="reason-text">Ešte viac našich vlastných vtipov.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#73</div>
+<div class="reason-text">Ešte viac spomienok, ktoré budú iba naše.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#74</div>
+<div class="reason-text">Chcem sa raz spolu s tebou pozerať na všetky naše staré fotky a spomínať na to, akí sme boli.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#75</div>
+<div class="reason-text">Chcem spolu s tebou splniť aspoň niekoľko našich spoločných želaní.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#76</div>
+<div class="reason-text">Chcem ešte veľakrát vidieť tvoj úsmev vďaka niečomu, čo som urobil ja.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#77</div>
+<div class="reason-text">Chcem s tebou zažiť veľa ďalších šťastných chvíľ.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#78</div>
+<div class="reason-text">Chcem ťa spoznávať stále viac, aj po dlhom čase.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#79</div>
+<div class="reason-text">Chcem, aby náš príbeh dostával ďalšie kapitoly.</div>
+</div>
+
+<div class="reason-card" data-category="future">
+<div class="reason-number">#80</div>
+<div class="reason-text">Chcem sa raz obzrieť späť a uvedomiť si, koľko sme toho spolu stihli zažiť.</div>
+</div>
+
+
+<!-- 81-99 -->
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#81</div>
+<div class="reason-text">Pretože s tebou môžem hodiny rozoberať úplné hlúposti.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#82</div>
+<div class="reason-text">Pretože naše správy niekedy vyzerajú, akoby ich písal niekto veľmi zvláštny.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#83</div>
+<div class="reason-text">Pretože máme vtipy, ktoré sa nedajú vysvetliť normálnemu človeku.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#84</div>
+<div class="reason-text">Pretože niekedy si vtipnejšia aj vtedy, keď sa vôbec nesnažíš byť vtipná.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#85</div>
+<div class="reason-text">Pretože tvoje reakcie sú niekedy vtipnejšie než samotná situácia.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#86</div>
+<div class="reason-text">Pretože ťa rád podpichujem.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#87</div>
+<div class="reason-text">Pretože mám rád, keď sa mi potom za to snažíš pomstiť.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#88</div>
+<div class="reason-text">Pretože môžeme začať vážny rozhovor a o päť minút neskôr riešiť úplnú hlúposť.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#89</div>
+<div class="reason-text">Pretože máš frázy, ktoré už nikdy nebudem počuť normálne.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#90</div>
+<div class="reason-text">Pretože niektoré naše meme už dávno nie sú vtipné, ale aj tak ich stále používame.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#91</div>
+<div class="reason-text">Pretože sa niekedy smejeme na takej hlúposti, že sami nechápeme, prečo nám to príde vtipné.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#92</div>
+<div class="reason-text">Pretože mám rád tvoju reakciu, keď poviem niečo úplne nečakané.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#93</div>
+<div class="reason-text">Pretože niekedy dokážeš jednou vetou úplne zničiť celý vážny rozhovor.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#94</div>
+<div class="reason-text">Pretože naše rozhovory niekedy potrebujú vlastného prekladateľa.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#95</div>
+<div class="reason-text">Pretože máme vlastné hlášky a vtipy, ktoré zvonku vôbec nedávajú zmysel.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#96</div>
+<div class="reason-text">Pretože pri tebe sa môžem správať úplne hlúpo a necítim sa divne.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#97</div>
+<div class="reason-text">Pretože mám rád, akí vieme byť spolu blbí.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#98</div>
+<div class="reason-text">Pretože aj keď nerobíme nič výnimočné, aj tak sa spolu dokážeme zabaviť.</div>
+</div>
+
+<div class="reason-card" data-category="funny">
+<div class="reason-number">#99</div>
+<div class="reason-text">Pretože nikdy neviem, aká ďalšia hlúposť sa objaví v našom rozhovore.</div>
+</div>
+
+</div>
+
+
+<!-- =========================
+     MUSIC
+========================= -->
+
+<section class="music-section">
+
+    <div class="music-card">
+
+        <h2>
+            Pesnička pre nás
+        </h2>
+
+        <p>
+            Jedna z pesničiek, ktorá mi pripomína teba.
+        </p>
+
+        <a
+            class="spotify-button"
+            href="https://open.spotify.com/track/1nKK4B9X8CbP5MwTfrSRBh?si=6575df10f2e64252"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            ▶ Lil Peep — White Tee
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GALLERY
+========================= -->
+
+<section class="gallery-section">
+
+    <h2 class="gallery-title">
+        Naše spomienky
+    </h2>
+
+    <div class="gallery">
+
+        <div class="photo-card" onclick="openPhoto(0)">
+            <img src="photos/01.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(1)">
+            <img src="photos/02.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(2)">
+            <img src="photos/03.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(3)">
+            <img src="photos/04.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(4)">
+            <img src="photos/05.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(5)">
+            <img src="photos/06.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(6)">
+            <img src="photos/07.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(7)">
+            <img src="photos/08.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(8)">
+            <img src="photos/09.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(9)">
+            <img src="photos/10.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(10)">
+            <img src="photos/11.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(11)">
+            <img src="photos/12.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(12)">
+            <img src="photos/13.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(13)">
+            <img src="photos/14.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(14)">
+            <img src="photos/15.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(15)">
+            <img src="photos/16.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(16)">
+            <img src="photos/17.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+        <div class="photo-card" onclick="openPhoto(17)">
+            <img src="photos/18.jpg" alt="Naša spoločná spomienka">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     REVEAL 100
+========================= -->
+
+<section class="reveal-section" id="finalReveal">
+
+    <button class="surprise-button" onclick="revealFinal()">
+        Chcem vedieť posledný dôvod ♥
+    </button>
+
+</section>
+
+
+<!-- =========================
+     100TH REASON
+========================= -->
+
+<section class="final-section" id="finalSection">
+
+    <div class="final-card">
+
+        <div class="final-number">
+            #100
+        </div>
+
+        <h2>
+            Ten najdôležitejší dôvod
+        </h2>
+
+        <p>
+            Pretože za celý čas, ktorý sme spolu strávili,
+            si sa pre mňa stala oveľa viac než len mojou frajerkou.
+            Stala si sa človekom, s ktorým sa chcem deliť o svoje
+            myšlienky, radosti, problémy, hlúposti aj obyčajné chvíle
+            svojho života.
+        </p>
+
+        <p>
+            Vážim si všetko, čo sme spolu prežili – dobré aj náročné
+            chvíle, pretože to všetko sa stalo súčasťou nášho príbehu.
+            Páči sa mi, akí sme spolu, páči sa mi smiať sa s tebou,
+            chodiť s tebou na prechádzky, rozprávať sa s tebou
+            a jednoducho vedieť, že ťa mám vo svojom živote.
+        </p>
+
+        <p>
+            A neviem, čo presne nás čaká ďalej, ale viem,
+            že s tebou chcem naďalej vytvárať nové spomienky,
+            nové vtipy, nové fotky a nové „pamätáš sa,
+            ako vtedy…“.
+        </p>
+
+        <p>
+            Preto je zo všetkých 100 dôvodov ten najdôležitejší
+            veľmi jednoduchý:
+            <strong>milujem ťa jednoducho preto, že si to ty.</strong>
+            A som veľmi šťastný, že práve ty si sa stala súčasťou
+            môjho života.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL SURPRISE BUTTON
+========================= -->
+
+<section class="surprise-final" id="surpriseFinal">
+
+    <button class="surprise-button" onclick="openSurprise()">
+        Ešte niečo... ♥
+    </button>
+
+    <div class="surprise-content" id="surpriseContent">
+
+        <h2>
+            ♥ Ešte jedna vec...
+        </h2>
+
+        <p>
+            Ak si sa dostala až sem, tak už vieš všetkých
+            100 dôvodov.
+        </p>
+
+        <p>
+            Ale pravda je taká, že ich existuje oveľa viac.
+            Len by sa sem asi všetky nezmestili.
+        </p>
+
+        <p>
+            Ďakujem ti za všetky naše spoločné chvíle,
+            za všetky smiechy, rozhovory, výlety,
+            hlúposti aj obyčajné dni.
+        </p>
+
+        <p>
+            A dúfam, že ich spolu ešte zažijeme naozaj veľa.
+        </p>
+
+        <p>
+            <strong>Ľúbim ťa. ♥</strong>
+        </p>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<footer>
+
     Prekladal som to cez uja, takže gramatiku radšej nekontroluj :)
+
+</footer>
+
+
+<!-- =========================
+     PHOTO MODAL
+========================= -->
+
+<div
+    class="photo-modal"
+    id="photoModal"
+    onclick="closePhoto(event)"
+>
+
+    <button
+        class="close-photo"
+        onclick="closePhoto()"
+    >
+        ×
+    </button>
+
+    <button
+        class="photo-arrow photo-prev"
+        onclick="previousPhoto(event)"
+    >
+        ‹
+    </button>
+
+    <img
+        id="modalImage"
+        src=""
+        alt="Zväčšená fotografia"
+    >
+
+    <button
+        class="photo-arrow photo-next"
+        onclick="nextPhoto(event)"
+    >
+        ›
+    </button>
+
+    <div
+        class="photo-counter"
+        id="photoCounter"
+    >
+        1 / 18
+    </div>
+
 </div>
 
 
 <script>
 
-    /* =========================
-       INTRO
-    ========================= */
+/* =========================
+   INTRO
+========================= */
 
-    function openWebsite() {
+function openWebsite() {
 
-        const intro = document.getElementById("introScreen");
+    const intro = document.getElementById("introScreen");
 
-        intro.classList.add("hidden");
+    intro.classList.add("hide");
 
-        document.body.style.overflow = "auto";
+    setTimeout(() => {
+        intro.style.display = "none";
+    }, 800);
 
-    }
-
-
-    /* =========================
-       RELATIONSHIP COUNTER
-    ========================= */
-
-    /*
-        27.09.2025 20:45
-        Bratislava / Slovakia
-
-        UTC offset for this date was +02:00.
-        We use an absolute timestamp so daylight-saving
-        changes are handled correctly.
-    */
-
-    const relationshipStart =
-        new Date("2025-09-27T20:45:00+02:00");
+}
 
 
-    function updateCounter() {
+/* =========================
+   RELATIONSHIP COUNTER
+========================= */
 
-        const now = new Date();
+const relationshipStart =
+    new Date("2025-09-27T20:45:00+02:00");
 
-        let years =
-            now.getFullYear() -
-            relationshipStart.getFullYear();
 
-        let months =
-            now.getMonth() -
-            relationshipStart.getMonth();
+function updateCounter() {
 
-        let days =
-            now.getDate() -
-            relationshipStart.getDate();
+    const now = new Date();
 
-        if (days < 0) {
+    let cursor = new Date(relationshipStart);
 
-            months--;
+    let years = 0;
+    let months = 0;
+    let days = 0;
 
-            const previousMonth =
-                new Date(
-                    now.getFullYear(),
-                    now.getMonth(),
-                    0
-                );
 
-            days += previousMonth.getDate();
-        }
+    /* YEARS */
 
-        if (months < 0) {
+    while (true) {
 
-            years--;
-            months += 12;
+        const next = new Date(cursor);
 
-        }
-
-        /*
-            Calculate the remaining hours,
-            minutes and seconds after years/months/days.
-        */
-
-        let calendarDate =
-            new Date(
-                relationshipStart.getTime()
-            );
-
-        calendarDate.setFullYear(
-            relationshipStart.getFullYear() + years
+        next.setFullYear(
+            next.getFullYear() + 1
         );
 
-        calendarDate.setMonth(
-            relationshipStart.getMonth() + months
-        );
+        if (next <= now) {
 
-        calendarDate.setDate(
-            relationshipStart.getDate() + days
-        );
-
-        let remaining =
-            now.getTime() - calendarDate.getTime();
-
-        let hours =
-            Math.floor(
-                remaining / (1000 * 60 * 60)
-            );
-
-        remaining -=
-            hours * 1000 * 60 * 60;
-
-        let minutes =
-            Math.floor(
-                remaining / (1000 * 60)
-            );
-
-        remaining -=
-            minutes * 1000 * 60;
-
-        let seconds =
-            Math.floor(
-                remaining / 1000
-            );
-
-
-        document.getElementById("years").textContent =
-            years;
-
-        document.getElementById("months").textContent =
-            months;
-
-        document.getElementById("days").textContent =
-            days;
-
-        document.getElementById("hours").textContent =
-            hours;
-
-        document.getElementById("minutes").textContent =
-            minutes;
-
-        document.getElementById("seconds").textContent =
-            seconds;
-
-
-        /*
-            Total hours since the beginning,
-            rounded to two decimal places.
-        */
-
-        const totalMilliseconds =
-            now.getTime() -
-            relationshipStart.getTime();
-
-        const totalHours =
-            totalMilliseconds /
-            (1000 * 60 * 60);
-
-        document.getElementById("totalHours").textContent =
-            totalHours.toFixed(2);
-    }
-
-
-    updateCounter();
-
-    setInterval(updateCounter, 1000);
-
-
-    /* =========================
-       CATEGORY FILTER
-    ========================= */
-
-    const buttons =
-        document.querySelectorAll(".category");
-
-    const reasons =
-        document.querySelectorAll(".reason");
-
-
-    buttons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const filter =
-                button.dataset.filter;
-
-            buttons.forEach(btn => {
-                btn.classList.remove("active");
-            });
-
-            button.classList.add("active");
-
-
-            reasons.forEach(reason => {
-
-                reason.style.display =
-                    filter === "all" ||
-                    reason.dataset.category === filter
-                        ? "block"
-                        : "none";
-
-            });
-
-        });
-
-    });
-
-
-    /* =========================
-       FLOATING HEARTS
-    ========================= */
-
-    const heartsContainer =
-        document.querySelector(".hearts");
-
-    const heartSymbols =
-        ["♥", "♡"];
-
-
-    for (let i = 0; i < 30; i++) {
-
-        const heart =
-            document.createElement("div");
-
-        heart.className = "heart";
-
-        heart.textContent =
-            heartSymbols[
-                Math.floor(
-                    Math.random() *
-                    heartSymbols.length
-                )
-            ];
-
-        heart.style.left =
-            Math.random() * 100 + "%";
-
-        heart.style.animationDuration =
-            8 + Math.random() * 12 + "s";
-
-        heart.style.animationDelay =
-            Math.random() * 12 + "s";
-
-        heart.style.fontSize =
-            12 + Math.random() * 20 + "px";
-
-        heartsContainer.appendChild(heart);
-
-    }
-
-
-    /* =========================
-       TOP BUTTON
-    ========================= */
-
-    const topButton =
-        document.getElementById("topButton");
-
-
-    window.addEventListener("scroll", () => {
-
-        if (window.scrollY > 500) {
-
-            topButton.classList.add("visible");
+            cursor = next;
+            years++;
 
         } else {
 
-            topButton.classList.remove("visible");
+            break;
+
+        }
+
+    }
+
+
+    /* MONTHS */
+
+    while (true) {
+
+        const next = new Date(cursor);
+
+        next.setMonth(
+            next.getMonth() + 1
+        );
+
+        if (next <= now) {
+
+            cursor = next;
+            months++;
+
+        } else {
+
+            break;
+
+        }
+
+    }
+
+
+    /* DAYS */
+
+    while (true) {
+
+        const next = new Date(cursor);
+
+        next.setDate(
+            next.getDate() + 1
+        );
+
+        if (next <= now) {
+
+            cursor = next;
+            days++;
+
+        } else {
+
+            break;
+
+        }
+
+    }
+
+
+    /* REMAINING TIME */
+
+    let remaining =
+        now.getTime() - cursor.getTime();
+
+
+    const hours =
+        Math.floor(
+            remaining / (1000 * 60 * 60)
+        );
+
+    remaining -=
+        hours * 1000 * 60 * 60;
+
+
+    const minutes =
+        Math.floor(
+            remaining / (1000 * 60)
+        );
+
+    remaining -=
+        minutes * 1000 * 60;
+
+
+    const seconds =
+        Math.floor(
+            remaining / 1000
+        );
+
+
+    document.getElementById("years").textContent =
+        years;
+
+    document.getElementById("months").textContent =
+        months;
+
+    document.getElementById("days").textContent =
+        days;
+
+    document.getElementById("hours").textContent =
+        hours;
+
+    document.getElementById("minutes").textContent =
+        minutes;
+
+    document.getElementById("seconds").textContent =
+        seconds;
+
+
+    /* TOTAL HOURS */
+
+    const totalMilliseconds =
+        now.getTime() -
+        relationshipStart.getTime();
+
+
+    const totalHours =
+        totalMilliseconds /
+        (1000 * 60 * 60);
+
+
+    document.getElementById("totalHours").textContent =
+        totalHours.toFixed(2);
+
+}
+
+
+updateCounter();
+
+setInterval(
+    updateCounter,
+    1000
+);
+
+
+/* =========================
+   FILTERS
+========================= */
+
+function filterReasons(category, button) {
+
+    const cards =
+        document.querySelectorAll(".reason-card");
+
+
+    document
+        .querySelectorAll(".filter-button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+
+    button.classList.add("active");
+
+
+    cards.forEach(card => {
+
+        if (
+            category === "all" ||
+            card.dataset.category === category
+        ) {
+
+            card.style.display = "";
+
+        } else {
+
+            card.style.display = "none";
 
         }
 
     });
 
-
-    topButton.addEventListener("click", () => {
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    });
+}
 
 
-    /* =========================
-       PHOTO GALLERY
-    ========================= */
+/* =========================
+   PHOTOS
+========================= */
 
-    const photos = [];
+const photos = [];
 
-    for (let i = 1; i <= 18; i++) {
+for (
+    let i = 1;
+    i <= 18;
+    i++
+) {
 
-        const number =
-            String(i).padStart(2, "0");
+    const number =
+        String(i).padStart(2, "0");
 
-        photos.push(
-            `photos/${number}.jpg`
-        );
+    photos.push(
+        `photos/${number}.jpg`
+    );
+
+}
+
+
+let currentPhoto = 0;
+
+
+function openPhoto(index) {
+
+    currentPhoto = index;
+
+    const modal =
+        document.getElementById("photoModal");
+
+    const image =
+        document.getElementById("modalImage");
+
+
+    image.src =
+        photos[currentPhoto];
+
+
+    document.getElementById(
+        "photoCounter"
+    ).textContent =
+        `${currentPhoto + 1} / ${photos.length}`;
+
+
+    modal.classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closePhoto(event) {
+
+    if (
+        !event ||
+        event.target.id === "photoModal" ||
+        event.target.classList.contains("close-photo")
+    ) {
+
+        document
+            .getElementById("photoModal")
+            .classList.remove("active");
+
+        document.body.style.overflow =
+            "auto";
+
+    }
+
+}
+
+
+function nextPhoto(event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+
+    currentPhoto++;
+
+
+    if (
+        currentPhoto >= photos.length
+    ) {
+
+        currentPhoto = 0;
 
     }
 
 
-    let currentPhoto = 0;
+    changePhoto();
+
+}
 
 
-    function openPhoto(index) {
+function previousPhoto(event) {
 
-        currentPhoto = index;
+    if (event) {
+        event.stopPropagation();
+    }
+
+
+    currentPhoto--;
+
+
+    if (currentPhoto < 0) {
+
+        currentPhoto =
+            photos.length - 1;
+
+    }
+
+
+    changePhoto();
+
+}
+
+
+function changePhoto() {
+
+    const image =
+        document.getElementById("modalImage");
+
+
+    image.style.animation =
+        "none";
+
+
+    void image.offsetWidth;
+
+
+    image.style.animation =
+        "photoAppear 0.35s ease";
+
+
+    image.src =
+        photos[currentPhoto];
+
+
+    document.getElementById(
+        "photoCounter"
+    ).textContent =
+        `${currentPhoto + 1} / ${photos.length}`;
+
+}
+
+
+/* =========================
+   KEYBOARD PHOTO CONTROLS
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
 
         const modal =
             document.getElementById("photoModal");
 
-        const image =
-            document.getElementById("modalImage");
-
-        image.src =
-            photos[currentPhoto];
-
-        document.getElementById("photoCounter")
-            .textContent =
-            `${currentPhoto + 1} / ${photos.length}`;
-
-        modal.classList.add("active");
-
-        document.body.style.overflow = "hidden";
-
-    }
-
-
-    function closePhoto(event) {
 
         if (
-            !event ||
-            event.target.id === "photoModal" ||
-            event.target.classList.contains("close-photo")
+            !modal.classList.contains("active")
+        ) {
+            return;
+        }
+
+
+        if (
+            event.key === "Escape"
         ) {
 
-            const modal =
-                document.getElementById("photoModal");
+            closePhoto();
 
-            modal.classList.remove("active");
+        }
 
-            document.body.style.overflow = "auto";
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            nextPhoto();
+
+        }
+
+
+        if (
+            event.key === "ArrowLeft"
+        ) {
+
+            previousPhoto();
 
         }
 
     }
+);
 
 
-    function nextPhoto(event) {
+/* =========================
+   REVEAL 100
+========================= */
 
-        if (event) {
-            event.stopPropagation();
-        }
+function revealFinal() {
 
-        currentPhoto++;
+    const finalSection =
+        document.getElementById("finalSection");
 
-        if (currentPhoto >= photos.length) {
-            currentPhoto = 0;
-        }
+    const revealSection =
+        document.getElementById("finalReveal");
 
-        changePhoto();
-
-    }
-
-
-    function previousPhoto(event) {
-
-        if (event) {
-            event.stopPropagation();
-        }
-
-        currentPhoto--;
-
-        if (currentPhoto < 0) {
-            currentPhoto = photos.length - 1;
-        }
-
-        changePhoto();
-
-    }
+    const surpriseFinal =
+        document.getElementById("surpriseFinal");
 
 
-    function changePhoto() {
-
-        const image =
-            document.getElementById("modalImage");
-
-        /*
-            Reset animation
-        */
-
-        image.style.animation = "none";
-
-        void image.offsetWidth;
-
-        image.style.animation =
-            "photoAppear 0.35s ease";
-
-
-        image.src =
-            photos[currentPhoto];
-
-
-        document.getElementById("photoCounter")
-            .textContent =
-            `${currentPhoto + 1} / ${photos.length}`;
-
-    }
-
-
-    /* =========================
-       PHOTO KEYBOARD CONTROLS
-    ========================= */
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-            const modal =
-                document.getElementById("photoModal");
-
-            if (!modal.classList.contains("active")) {
-                return;
-            }
-
-            if (event.key === "Escape") {
-
-                modal.classList.remove("active");
-
-                document.body.style.overflow = "auto";
-
-            }
-
-            if (event.key === "ArrowRight") {
-
-                nextPhoto();
-
-            }
-
-            if (event.key === "ArrowLeft") {
-
-                previousPhoto();
-
-            }
-
-        }
+    finalSection.classList.add(
+        "revealed"
     );
 
 
-    /* =========================
-       FINAL SURPRISE
-    ========================= */
-
-    function openSurprise() {
-
-        const surprise =
-            document.getElementById("surpriseContent");
-
-        const button =
-            document.getElementById("surpriseButton");
+    revealSection.style.display =
+        "none";
 
 
-        surprise.classList.add("active");
+    surpriseFinal.classList.add(
+        "visible"
+    );
 
-        button.style.display = "none";
+
+    setTimeout(() => {
+
+        finalSection.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 200);
+
+}
 
 
-        setTimeout(() => {
+/* =========================
+   FINAL SURPRISE
+========================= */
 
-            surprise.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
+function openSurprise() {
 
-        }, 150);
+    const surprise =
+        document.getElementById(
+            "surpriseContent"
+        );
 
-    }
+    const button =
+        document.querySelector(
+            "#surpriseFinal > .surprise-button"
+        );
+
+
+    surprise.classList.add(
+        "active"
+    );
+
+
+    button.style.display =
+        "none";
+
+
+    setTimeout(() => {
+
+        surprise.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 150);
+
+}
 
 </script>
 
